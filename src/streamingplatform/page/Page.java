@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import streamingplatform.movie.Movie;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public abstract class Page {
     @Getter
     protected String pageName;
+    @Getter
+    protected final ArrayList<Movie> allAccessibleMovies = new ArrayList<Movie>();
     @Getter
     protected final ArrayList<Movie> visibleMovies = new ArrayList<Movie>();
     @Getter

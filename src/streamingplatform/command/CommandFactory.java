@@ -13,6 +13,7 @@ public class CommandFactory {
             switch (input.getFeature()) {
                 case "login": return new LoginCommand(input);
                 case "register": return new RegisterCommand(input);
+                case "search": return new SearchCommand(input);
             }
         }
         throw new IllegalArgumentException();

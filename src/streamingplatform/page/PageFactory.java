@@ -8,6 +8,7 @@ public class PageFactory {
             case "logout" : return new LogoutPage();
             case "unauthhome" : return new UnauthenticatedHomepage();
             case "authhome" : return new AuthenticatedHomepage();
+            case "movies": return new MoviesPage();
         }
         throw new IllegalArgumentException();
     }

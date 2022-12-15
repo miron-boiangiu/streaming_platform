@@ -52,6 +52,5 @@ public class User {
         ArrayNode watchedMovies = outputNode.putArray("watchedMovies");
         ArrayNode likedMovies = outputNode.putArray("likedMovies");
         ArrayNode ratedMovies = outputNode.putArray("ratedMovies");
-        //TODO: Add movies logic.
     }
 }
