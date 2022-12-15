@@ -14,6 +14,7 @@ public class CommandFactory {
                 case "login": return new LoginCommand(input);
                 case "register": return new RegisterCommand(input);
                 case "search": return new SearchCommand(input);
+                case "filter": return new FilterCommand(input);
             }
         }
         throw new IllegalArgumentException();
