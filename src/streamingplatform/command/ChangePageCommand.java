@@ -17,32 +17,19 @@ public class ChangePageCommand extends Command{
     public void execute() {
         StreamingPlatform site = StreamingPlatform.getInstance();
         Page currentPage = site.getCurrentPage();
+
         if(currentPage.getAccessiblePages().contains(action.getPage())){
             site.setCurrentPage(PageFactory.create(action.getPage()));
             if(action.getPage().equals("movies") || action.getPage().equals("see details")){
-                ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-                newNode.putNull("error");
-                User currentUser = StreamingPlatform.getInstance().getCurrentUser();
-                if(currentUser != null){
-                    ObjectNode userNode = newNode.putObject("currentUser");
-                    site.getCurrentUser().addOutput(userNode);
-                }
-                else{
-                    newNode.putNull("currentUser");
-                }
-                site.getCurrentPage().addOutput(newNode);
+                site.addOutputNode();
             }
-            //TODO: Check if the new page is Logout!
-            if(action.getPage().equals("logout")){
+            else if(action.getPage().equals("logout")){
                 site.setCurrentPage(PageFactory.create("unauthhome"));
                 site.setCurrentUser(null);
             }
         }
         else{
-            ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-            newNode.put("error", "Error");
-            newNode.putNull("currentUser");
-            newNode.putArray("currentMoviesList");
+            site.addErrorOutputNode();
         }
     }
 }

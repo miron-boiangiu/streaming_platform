@@ -22,22 +22,18 @@ public class RegisterCommand extends Command{
 
         if(!StreamingPlatform.getInstance().getCurrentPage().getPossibleActions().contains("register")){
             ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-            newNode.put("error", "Error");
-            newNode.putNull("currentUser");
-            newNode.putArray("currentMoviesList");
+            site.addErrorOutputNode();
             return;
         }
 
         for(User user: userDatabase.getEntries()){
             if(user.getName().equals(username)){
                 StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("unauthhome"));
-                ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-                newNode.put("error", "Error");
-                newNode.putNull("currentUser");
-                newNode.putArray("currentMoviesList");
+                site.addErrorOutputNode();
                 return;
             }
         }
+
         String country = action.getCredentials().getCountry();
         int balance = action.getCredentials().getBalance();
         String type = action.getCredentials().getAccountType();
@@ -46,18 +42,7 @@ public class RegisterCommand extends Command{
 
         site.setCurrentUser(newUser);
         StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("authhome"));
-
-        ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-        newNode.putNull("error");
-        User currentUser = StreamingPlatform.getInstance().getCurrentUser();
-        if(currentUser != null){
-            ObjectNode userNode = newNode.putObject("currentUser");
-            site.getCurrentUser().addOutput(userNode);
-        }
-        else{
-            newNode.putNull("currentUser");
-        }
-        site.getCurrentPage().addOutput(newNode);
+        site.addOutputNode();
         return;
 
     }

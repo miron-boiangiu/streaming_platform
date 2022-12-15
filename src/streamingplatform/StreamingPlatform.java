@@ -2,6 +2,7 @@ package streamingplatform;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import input.ActionInput;
 import input.Input;
 import input.MovieInput;
@@ -63,5 +64,25 @@ public class StreamingPlatform {
         }
 
         commandParser.executeAll();
+    }
+
+    public void addErrorOutputNode(){
+        ObjectNode newNode = output.addObject();
+        newNode.put("error", "Error");
+        newNode.putNull("currentUser");
+        newNode.putArray("currentMoviesList");
+    }
+
+    public void addOutputNode(){
+        ObjectNode newNode = output.addObject();
+        newNode.putNull("error");
+        if(currentUser != null){
+            ObjectNode userNode = newNode.putObject("currentUser");
+            currentUser.addOutput(userNode);
+        }
+        else{
+            newNode.putNull("currentUser");
+        }
+        currentPage.addOutput(newNode);
     }
 }

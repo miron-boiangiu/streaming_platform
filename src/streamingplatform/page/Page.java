@@ -24,7 +24,7 @@ public abstract class Page {
     public void addOutput(ObjectNode outputNode){
         ArrayNode outputArray = outputNode.putArray("currentMoviesList");
         for(Movie movie: visibleMovies){
-            //TODO: Add logic in Movie class.
+            movie.addOutput(outputArray);
         }
     }
 }

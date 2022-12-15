@@ -22,10 +22,7 @@ public class LoginCommand extends Command{
         StreamingPlatform site = StreamingPlatform.getInstance();
 
         if(!StreamingPlatform.getInstance().getCurrentPage().getPossibleActions().contains("login")){
-            ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-            newNode.put("error", "Error");
-            newNode.putNull("currentUser");
-            newNode.putArray("currentMoviesList");
+            site.addErrorOutputNode();
             return;
         }
 
@@ -33,26 +30,12 @@ public class LoginCommand extends Command{
             if(user.getName().equals(username) && user.getPassword().equals(password)){
                 StreamingPlatform.getInstance().setCurrentUser(user);
                 StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("authhome"));
-
-                ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-                newNode.putNull("error");
-                User currentUser = StreamingPlatform.getInstance().getCurrentUser();
-                if(currentUser != null){
-                    ObjectNode userNode = newNode.putObject("currentUser");
-                    site.getCurrentUser().addOutput(userNode);
-                }
-                else{
-                    newNode.putNull("currentUser");
-                }
-                site.getCurrentPage().addOutput(newNode);
+                site.addOutputNode();
                 return;
             }
         }
         StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("unauthhome"));
-        ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
-        newNode.put("error", "Error");
-        newNode.putNull("currentUser");
-        newNode.putArray("currentMoviesList");
+        site.addErrorOutputNode();
         return;
 
     }
