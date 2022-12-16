@@ -29,10 +29,10 @@ public class PurchaseCommand extends Command{
             platform.addErrorOutputNode();
             return;
         }
-        if(accountType.equals("premium") && currentFreeMoviesCount > 1){
+        if(accountType.equals("premium") && currentFreeMoviesCount > 0){
             currentFreeMoviesCount--;
         }
-        else if(currentTokens > 2){
+        else if(currentTokens > 1){
             currentTokens-=2;
         }
         else{
