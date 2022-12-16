@@ -12,7 +12,7 @@ public class FilterCommand extends Command{
     }
     @Override
     public void execute() {
-        if (!platform.getCurrentPage().getPossibleActions().contains("search")) {
+        if (!platform.getCurrentPage().getPossibleActions().contains("filter")) {
             platform.addErrorOutputNode();
             return;
         }
@@ -89,27 +89,31 @@ public class FilterCommand extends Command{
         ArrayList<Movie> moviesCopy = new ArrayList<>(movies);
 
         for(Movie movie: moviesCopy){
-            boolean hasAllActors = true;
-            for(String actor: actors){
-                if(!movie.getActors().contains(actor)){
-                    hasAllActors = false;
-                    break;
+            if(actors != null) {
+                boolean hasAllActors = true;
+                for (String actor : actors) {
+                    if (!movie.getActors().contains(actor)) {
+                        hasAllActors = false;
+                        break;
+                    }
+                }
+                if (!hasAllActors) {
+                    movies.remove(movie);
+                    continue;
                 }
             }
-            if(!hasAllActors){
-                movies.remove(movie);
-                continue;
-            }
-            boolean hasAllGenres = true;
-            for(String genre: genres){
-                if(!movie.getGenres().contains(genre)){
-                    hasAllGenres = false;
-                    break;
+            if(genres != null) {
+                boolean hasAllGenres = true;
+                for (String genre : genres) {
+                    if (!movie.getGenres().contains(genre)) {
+                        hasAllGenres = false;
+                        break;
+                    }
                 }
-            }
-            if(!hasAllGenres){
-                movies.remove(movie);
-                continue;
+                if (!hasAllGenres) {
+                    movies.remove(movie);
+                    continue;
+                }
             }
         }
     }

@@ -48,9 +48,22 @@ public class User {
         credentialsNode.put("balance", String.valueOf(balance));
         outputNode.put("tokensCount", tokensCount);
         outputNode.put("numFreePremiumMovies", numFreePremiumMovies);
-        ArrayNode purchasedMovies = outputNode.putArray("purchasedMovies");
-        ArrayNode watchedMovies = outputNode.putArray("watchedMovies");
-        ArrayNode likedMovies = outputNode.putArray("likedMovies");
-        ArrayNode ratedMovies = outputNode.putArray("ratedMovies");
+        ArrayNode purchasedMoviesNode = outputNode.putArray("purchasedMovies");
+        ArrayNode watchedMoviesNode = outputNode.putArray("watchedMovies");
+        ArrayNode likedMoviesNode = outputNode.putArray("likedMovies");
+        ArrayNode ratedMoviesNode = outputNode.putArray("ratedMovies");
+
+        for(Movie movie: purchasedMovies){
+            movie.addOutput(purchasedMoviesNode);
+        }
+        for(Movie movie: watchedMovies){
+            movie.addOutput(watchedMoviesNode);
+        }
+        for(Movie movie: likedMovies){
+            movie.addOutput(likedMoviesNode);
+        }
+        for(Movie movie: ratedMovies){
+            movie.addOutput(ratedMoviesNode);
+        }
     }
 }

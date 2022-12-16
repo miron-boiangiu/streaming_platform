@@ -15,6 +15,12 @@ public class CommandFactory {
                 case "register": return new RegisterCommand(input);
                 case "search": return new SearchCommand(input);
                 case "filter": return new FilterCommand(input);
+                case "like": return new LikeCommand(input);
+                case "rate": return new RateCommand(input);
+                case "buy premium account": return new BuyPremiumCommand(input);
+                case "purchase": return new PurchaseCommand(input);
+                case "watch": return new WatchCommand(input);
+                case "buy tokens": return new BuyTokensCommand(input);
             }
         }
         throw new IllegalArgumentException();
