@@ -37,7 +37,7 @@ public class FilterCommand extends Command{
             {
                 if(rating != null && duration != null){
                     if(!(a.getDuration() == b.getDuration())){
-                        if(duration.equals("ascending")){
+                        if(duration.equals("increasing")){
                             return a.getDuration() - b.getDuration();
                         }
                         else{
@@ -45,7 +45,7 @@ public class FilterCommand extends Command{
                         }
                     }
                     else{
-                        if(rating.equals("ascending")){
+                        if(rating.equals("increasing")){
                             return a.getRating().compareTo(b.getRating());
                         }
                         else{
@@ -57,7 +57,7 @@ public class FilterCommand extends Command{
                     throw new IllegalArgumentException();
                 }
                 else if(rating == null){
-                    if(duration.equals("ascending")){
+                    if(duration.equals("increasing")){
                         return a.getDuration() - b.getDuration();
                     }
                     else{
@@ -65,7 +65,7 @@ public class FilterCommand extends Command{
                     }
                 }
                 else {
-                    if(rating.equals("ascending")){
+                    if(rating.equals("increasing")){
                         return a.getRating().compareTo(b.getRating());
                     }
                     else{
