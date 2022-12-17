@@ -5,9 +5,9 @@ import input.ActionInput;
 import streamingplatform.StreamingPlatform;
 
 public abstract class Command {
-    ActionInput action;
-    StreamingPlatform platform = StreamingPlatform.getInstance();
-    ArrayNode output = StreamingPlatform.getInstance().getOutput();
+    protected ActionInput action;
+    protected StreamingPlatform platform = StreamingPlatform.getInstance();
+    protected ArrayNode output = StreamingPlatform.getInstance().getOutput();
 
     public Command(ActionInput action){
         this.action = action;

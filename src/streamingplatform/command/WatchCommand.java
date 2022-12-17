@@ -30,13 +30,8 @@ public class WatchCommand extends Command{
         }
         if(!currentUser.getWatchedMovies().contains(currentViewedMovie)){
             currentUser.getWatchedMovies().add(currentViewedMovie);
-            platform.addOutputNode();
-            return;
         }
-        else{
-            platform.addErrorOutputNode();
-            return;
-        }
+        platform.addOutputNode();
 
     }
 }
