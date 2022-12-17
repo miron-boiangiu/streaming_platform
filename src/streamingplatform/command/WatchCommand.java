@@ -3,6 +3,7 @@ package streamingplatform.command;
 import input.ActionInput;
 import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
+import static streamingplatform.StreamingPlatformConstants.WATCH_ACTION;
 
 public class WatchCommand extends Command{
 
@@ -12,7 +13,7 @@ public class WatchCommand extends Command{
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains("watch")){
+        if(!platform.getCurrentPage().getPossibleActions().contains(WATCH_ACTION)){
             platform.addErrorOutputNode();
             return;
         }

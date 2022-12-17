@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
+import static streamingplatform.StreamingPlatformConstants.*;
+
 @Getter
 public class Movie {
     private String name;
@@ -36,24 +38,24 @@ public class Movie {
 
     public void addOutput(ArrayNode output){
         ObjectNode outputNode = output.addObject();
-        outputNode.put("name", name);
-        outputNode.put("year", year);
-        outputNode.put("duration", duration);
-        ArrayNode genresArray = outputNode.putArray("genres");
+        outputNode.put(MOVIE_NAME_PROPERTY_NAME, name);
+        outputNode.put(YEAR_PROPERTY_NAME, year);
+        outputNode.put(DURATION_PROPERTY_NAME, duration);
+        ArrayNode genresArray = outputNode.putArray(GENRES_PROPERTY_NAME);
         for(String genre: genres){
             genresArray.add(genre);
         }
-        ArrayNode actorsArray = outputNode.putArray("actors");
+        ArrayNode actorsArray = outputNode.putArray(ACTORS_PROPERTY_NAME);
         for(String actor: actors){
             actorsArray.add(actor);
         }
-        ArrayNode countriesBannedArray = outputNode.putArray("countriesBanned");
+        ArrayNode countriesBannedArray = outputNode.putArray(BANNED_COUNTRIES_PROPERTY_NAME);
         for(String country: countriesBanned){
             countriesBannedArray.add(country);
         }
-        outputNode.put("numLikes", numLikes);
-        outputNode.put("rating", rating);
-        outputNode.put("numRatings", numRatings);
+        outputNode.put(NUMBER_OF_LIKES_PROPERTY_NAME, numLikes);
+        outputNode.put(MOVIE_RATING_PROPERTY_NAME, rating);
+        outputNode.put(NUMBER_OF_RATINGS_PROPERTY_NAME, numRatings);
     }
 
     public void addRating(int rating){

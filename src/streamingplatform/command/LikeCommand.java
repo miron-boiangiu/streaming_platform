@@ -3,6 +3,7 @@ package streamingplatform.command;
 import input.ActionInput;
 import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
+import static streamingplatform.StreamingPlatformConstants.LIKE_ACTION;
 
 public class LikeCommand extends Command{
 
@@ -12,7 +13,7 @@ public class LikeCommand extends Command{
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains("like")){
+        if(!platform.getCurrentPage().getPossibleActions().contains(LIKE_ACTION)){
             platform.addErrorOutputNode();
             return;
         }

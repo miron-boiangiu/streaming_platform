@@ -3,6 +3,10 @@ package streamingplatform.command;
 import input.ActionInput;
 import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
+import static streamingplatform.StreamingPlatformConstants.PURCHASE_ACTION;
+import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUTE;
+import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_FREE_TOKEN_PRICE;
+import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_PRICE;
 
 public class PurchaseCommand extends Command{
     public PurchaseCommand(ActionInput action) {
@@ -11,7 +15,7 @@ public class PurchaseCommand extends Command{
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains("purchase")){
+        if(!platform.getCurrentPage().getPossibleActions().contains(PURCHASE_ACTION)){
             platform.addErrorOutputNode();
             return;
         }
@@ -29,11 +33,11 @@ public class PurchaseCommand extends Command{
             platform.addErrorOutputNode();
             return;
         }
-        if(accountType.equals("premium") && currentFreeMoviesCount > 0){
-            currentFreeMoviesCount--;
+        if(accountType.equals(PREMIUM_USER_ATTRIBUTE) && currentFreeMoviesCount >= PURCHASE_MOVIE_FREE_TOKEN_PRICE){
+            currentFreeMoviesCount-=PURCHASE_MOVIE_FREE_TOKEN_PRICE;
         }
-        else if(currentTokens > 1){
-            currentTokens-=2;
+        else if(currentTokens >= PURCHASE_MOVIE_PRICE){
+            currentTokens-=PURCHASE_MOVIE_PRICE;
         }
         else{
             platform.addErrorOutputNode();

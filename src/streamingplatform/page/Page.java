@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import streamingplatform.movie.Movie;
 import java.util.ArrayList;
+import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 
 public abstract class Page {
     @Getter
@@ -18,12 +19,8 @@ public abstract class Page {
     @Getter
     protected final ArrayList<String> possibleActions = new ArrayList<String>();
 
-    public Page(){
-        //TODO: Update the movies list for each page!
-    }
-
     public void addOutput(ObjectNode outputNode){
-        ArrayNode outputArray = outputNode.putArray("currentMoviesList");
+        ArrayNode outputArray = outputNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
         for(Movie movie: visibleMovies){
             movie.addOutput(outputArray);
         }

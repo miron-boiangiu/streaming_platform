@@ -6,6 +6,9 @@ import streamingplatform.StreamingPlatform;
 import streamingplatform.database.Database;
 import streamingplatform.page.PageFactory;
 import streamingplatform.user.User;
+import static streamingplatform.StreamingPlatformConstants.LOGIN_ACTION;
+import static streamingplatform.StreamingPlatformConstants.AUTHENTICATED_HOMEPAGE_PAGE;
+import static streamingplatform.StreamingPlatformConstants.UNAUTHENTICATED_HOMEPAGE_PAGE;
 
 public class LoginCommand extends Command{
 
@@ -21,7 +24,7 @@ public class LoginCommand extends Command{
         Database<User> userDatabase = StreamingPlatform.getInstance().getUserDatabase();
         StreamingPlatform site = StreamingPlatform.getInstance();
 
-        if(!StreamingPlatform.getInstance().getCurrentPage().getPossibleActions().contains("login")){
+        if(!StreamingPlatform.getInstance().getCurrentPage().getPossibleActions().contains(LOGIN_ACTION)){
             site.addErrorOutputNode();
             return;
         }
@@ -29,12 +32,12 @@ public class LoginCommand extends Command{
         for(User user: userDatabase.getEntries()){
             if(user.getName().equals(username) && user.getPassword().equals(password)){
                 StreamingPlatform.getInstance().setCurrentUser(user);
-                StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("authhome"));
+                StreamingPlatform.getInstance().setCurrentPage(PageFactory.create(AUTHENTICATED_HOMEPAGE_PAGE));
                 site.addOutputNode();
                 return;
             }
         }
-        StreamingPlatform.getInstance().setCurrentPage(PageFactory.create("unauthhome"));
+        StreamingPlatform.getInstance().setCurrentPage(PageFactory.create(UNAUTHENTICATED_HOMEPAGE_PAGE));
         site.addErrorOutputNode();
         return;
 

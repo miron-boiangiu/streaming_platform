@@ -4,6 +4,7 @@ import input.ActionInput;
 import streamingplatform.movie.Movie;
 
 import java.util.ArrayList;
+import static streamingplatform.StreamingPlatformConstants.SEARCH_ACTION;
 
 public class SearchCommand extends Command{
     public SearchCommand(ActionInput action) {
@@ -12,7 +13,7 @@ public class SearchCommand extends Command{
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains("search")){
+        if(!platform.getCurrentPage().getPossibleActions().contains(SEARCH_ACTION)){
             platform.addErrorOutputNode();
             return;
         }

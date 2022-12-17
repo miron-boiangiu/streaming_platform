@@ -3,6 +3,7 @@ package streamingplatform.command;
 import input.ActionInput;
 import streamingplatform.StreamingPlatform;
 import streamingplatform.user.User;
+import static streamingplatform.StreamingPlatformConstants.BUY_TOKENS_ACTION;
 
 public class BuyTokensCommand extends Command{
 
@@ -12,7 +13,7 @@ public class BuyTokensCommand extends Command{
 
     @Override
     public void execute() {
-        if (!platform.getCurrentPage().getPossibleActions().contains("buy tokens")) {
+        if (!platform.getCurrentPage().getPossibleActions().contains(BUY_TOKENS_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }

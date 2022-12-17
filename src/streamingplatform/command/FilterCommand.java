@@ -5,6 +5,8 @@ import streamingplatform.movie.Movie;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import static streamingplatform.StreamingPlatformConstants.FILTER_ACTION;
+import static streamingplatform.StreamingPlatformConstants.INCREASING_FILTER_OPTION;
 
 public class FilterCommand extends Command{
     public FilterCommand(ActionInput action) {
@@ -12,7 +14,7 @@ public class FilterCommand extends Command{
     }
     @Override
     public void execute() {
-        if (!platform.getCurrentPage().getPossibleActions().contains("filter")) {
+        if (!platform.getCurrentPage().getPossibleActions().contains(FILTER_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }
@@ -31,13 +33,12 @@ public class FilterCommand extends Command{
         String rating = action.getFilters().getSort().getRating();
         String duration = action.getFilters().getSort().getDuration();
 
-        //TODO: Is there a better way to do this?
         class SortMoviesComparator implements Comparator<Movie> {
             public int compare(Movie a, Movie b)
             {
                 if(rating != null && duration != null){
                     if(!(a.getDuration() == b.getDuration())){
-                        if(duration.equals("increasing")){
+                        if(duration.equals(INCREASING_FILTER_OPTION)){
                             return a.getDuration() - b.getDuration();
                         }
                         else{
@@ -45,7 +46,7 @@ public class FilterCommand extends Command{
                         }
                     }
                     else{
-                        if(rating.equals("increasing")){
+                        if(rating.equals(INCREASING_FILTER_OPTION)){
                             return a.getRating().compareTo(b.getRating());
                         }
                         else{
@@ -57,7 +58,7 @@ public class FilterCommand extends Command{
                     throw new IllegalArgumentException();
                 }
                 else if(rating == null){
-                    if(duration.equals("increasing")){
+                    if(duration.equals(INCREASING_FILTER_OPTION)){
                         return a.getDuration() - b.getDuration();
                     }
                     else{
@@ -65,7 +66,7 @@ public class FilterCommand extends Command{
                     }
                 }
                 else {
-                    if(rating.equals("increasing")){
+                    if(rating.equals(INCREASING_FILTER_OPTION)){
                         return a.getRating().compareTo(b.getRating());
                     }
                     else{

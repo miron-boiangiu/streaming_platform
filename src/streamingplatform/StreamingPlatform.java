@@ -16,6 +16,10 @@ import streamingplatform.movie.Movie;
 import streamingplatform.page.Page;
 import streamingplatform.page.UnauthenticatedHomepage;
 import streamingplatform.page.UnauthenticatedPage;
+import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_VALUE;
+import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
 import streamingplatform.user.User;
 
 import java.util.stream.Stream;
@@ -68,20 +72,20 @@ public class StreamingPlatform {
 
     public void addErrorOutputNode(){
         ObjectNode newNode = output.addObject();
-        newNode.put("error", "Error");
-        newNode.putNull("currentUser");
-        newNode.putArray("currentMoviesList");
+        newNode.put(ERROR_PROPERTY_NAME, ERROR_PROPERTY_VALUE);
+        newNode.putNull(CURRENT_USER_PROPERTY_NAME);
+        newNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
     }
 
     public void addOutputNode(){
         ObjectNode newNode = output.addObject();
-        newNode.putNull("error");
+        newNode.putNull(ERROR_PROPERTY_NAME);
         if(currentUser != null){
-            ObjectNode userNode = newNode.putObject("currentUser");
+            ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
             currentUser.addOutput(userNode);
         }
         else{
-            newNode.putNull("currentUser");
+            newNode.putNull(CURRENT_USER_PROPERTY_NAME);
         }
         currentPage.addOutput(newNode);
     }

@@ -9,6 +9,9 @@ import streamingplatform.movie.Movie;
 
 import java.util.ArrayList;
 
+import static streamingplatform.StreamingPlatformConstants.*;
+
+
 @Getter
 @Setter
 public class User {
@@ -40,18 +43,18 @@ public class User {
     }
 
     public void addOutput(ObjectNode outputNode){
-        ObjectNode credentialsNode = outputNode.putObject("credentials");
-        credentialsNode.put("name", name);
-        credentialsNode.put("password", password);
-        credentialsNode.put("accountType", accountType);
-        credentialsNode.put("country", country);
-        credentialsNode.put("balance", String.valueOf(balance));
-        outputNode.put("tokensCount", tokensCount);
-        outputNode.put("numFreePremiumMovies", numFreePremiumMovies);
-        ArrayNode purchasedMoviesNode = outputNode.putArray("purchasedMovies");
-        ArrayNode watchedMoviesNode = outputNode.putArray("watchedMovies");
-        ArrayNode likedMoviesNode = outputNode.putArray("likedMovies");
-        ArrayNode ratedMoviesNode = outputNode.putArray("ratedMovies");
+        ObjectNode credentialsNode = outputNode.putObject(CREDENTIALS_PROPERTY_NAME);
+        credentialsNode.put(USERNAME_PROPERTY_NAME, name);
+        credentialsNode.put(PASSWORD_PROPERTY_NAME, password);
+        credentialsNode.put(ACCOUNT_TYPE_PROPERTY_NAME, accountType);
+        credentialsNode.put(COUNTRY_PROPERTY_NAME, country);
+        credentialsNode.put(BALANCE_PROPERTY_NAME, String.valueOf(balance));
+        outputNode.put(TOKENS_COUNT_PROPERTY_NAME, tokensCount);
+        outputNode.put(FREE_PREMIUM_MOVIES_COUNT_PROPERTY_NAME, numFreePremiumMovies);
+        ArrayNode purchasedMoviesNode = outputNode.putArray(PURCHASED_MOVIES_PROPERTY_NAME);
+        ArrayNode watchedMoviesNode = outputNode.putArray(WATCHED_MOVIES_PROPERTY_NAME);
+        ArrayNode likedMoviesNode = outputNode.putArray(LIKED_MOVIES_PROPERTY_NAME);
+        ArrayNode ratedMoviesNode = outputNode.putArray(RATED_MOVIES_PROPERTY_NAME);
 
         for(Movie movie: purchasedMovies){
             movie.addOutput(purchasedMoviesNode);
