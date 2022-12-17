@@ -7,6 +7,9 @@ import streamingplatform.movie.Movie;
 import java.util.ArrayList;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 
+/**
+ *  Main class for pages, describing the structure all pages must follow.
+ */
 public abstract class Page {
     @Getter
     protected String pageName;
@@ -19,7 +22,11 @@ public abstract class Page {
     @Getter
     protected final ArrayList<String> possibleActions = new ArrayList<String>();
 
-    public void addOutput(final ObjectNode outputNode) {
+    /**
+     * Adds visible movies property to the given node.
+     * @param outputNode The node to add the property to.
+     */
+    public final void addOutput(final ObjectNode outputNode) {
         ArrayNode outputArray = outputNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
         for (Movie movie: visibleMovies) {
             movie.addOutput(outputArray);

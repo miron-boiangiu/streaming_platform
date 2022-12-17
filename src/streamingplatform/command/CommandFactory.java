@@ -16,10 +16,19 @@ import static streamingplatform.StreamingPlatformConstants.PURCHASE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.WATCH_ACTION;
 import static streamingplatform.StreamingPlatformConstants.BUY_TOKENS_ACTION;
 
+/**
+ * Factory used to create Commands.
+ */
 public final class CommandFactory {
     private CommandFactory() {
 
     }
+
+    /**
+     * Creates a specific Command object from its input.
+     * @param input Information about the requested command.
+     * @return A command that does what was requested, ready to be executed..
+     */
     public static Command create(final ActionInput input) {
         if (Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)) {
             return new ChangePageCommand(input);

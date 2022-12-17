@@ -23,10 +23,13 @@ import static streamingplatform.StreamingPlatformConstants.TOKENS_COUNT_PROPERTY
 import static streamingplatform.StreamingPlatformConstants.USERNAME_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.WATCHED_MOVIES_PROPERTY_NAME;
 
-
+/**
+ * User objects contain information about a specific user: his name,
+ * his password, etc.
+ */
 @Getter
 @Setter
-public class User {
+public final class User {
     private String name;
     private String password;
     private String accountType;
@@ -55,6 +58,10 @@ public class User {
         this.balance = input.getCredentials().getBalance();
     }
 
+    /**
+     * Adds user information properties to the given node.
+     * @param outputNode The node to add the property to.
+     */
     public void addOutput(final ObjectNode outputNode) {
         ObjectNode credentialsNode = outputNode.putObject(CREDENTIALS_PROPERTY_NAME);
         credentialsNode.put(USERNAME_PROPERTY_NAME, name);

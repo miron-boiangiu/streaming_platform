@@ -11,6 +11,13 @@ public final class Main {
     private Main() {
 
     }
+
+    /**
+     * Prepares everything and runs the platform.
+     * @param args The JSON file to be turned into input for
+     *             the platform and the name of the output JSON file.
+     * @throws IOException
+     */
     public static void main(final String[] args) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData = objectMapper.readValue(new File(args[0]), Input.class);

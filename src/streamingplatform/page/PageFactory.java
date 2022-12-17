@@ -8,10 +8,19 @@ import static streamingplatform.StreamingPlatformConstants.MOVIES_PAGE;
 import static streamingplatform.StreamingPlatformConstants.SEE_DETAILS_PAGE;
 import static streamingplatform.StreamingPlatformConstants.UPGRADES_PAGE;
 
+/**
+ * Factory used to create Pages.
+ */
 public final class PageFactory {
     private PageFactory() {
 
     }
+
+    /**
+     * Creates a specific Page object from its name.
+     * @param pageName The name of the required page.
+     * @return The Page that corresponds to the page name.
+     */
     public static Page create(final String pageName) {
         switch (pageName) {
             case LOGIN_PAGE: return new LoginPage();

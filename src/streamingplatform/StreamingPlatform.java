@@ -44,6 +44,12 @@ public final class StreamingPlatform {
     }
     private CommandParser commandParser;
 
+    /**
+     * Initializes the platform and goes through the input.
+     * @param inputData The input to be read.
+     * @param output The ArrayNode where output data is put,
+     *               to be turned the final JSON file.
+     */
     public void bootUp(final Input inputData, final ArrayNode output) {
         this.inputData = inputData;
         this.output = output;
@@ -68,6 +74,9 @@ public final class StreamingPlatform {
         commandParser.executeAll();
     }
 
+    /**
+     * In case of an error, adds an ObjectNode to the output to mark the error.
+     */
     public void addErrorOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.put(ERROR_PROPERTY_NAME, ERROR_PROPERTY_VALUE);
@@ -75,6 +84,10 @@ public final class StreamingPlatform {
         newNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
     }
 
+    /**
+     * In case normal output is required, goes through the current user
+     * and the current page and writes all required information.
+     */
     public void addOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.putNull(ERROR_PROPERTY_NAME);

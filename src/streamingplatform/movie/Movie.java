@@ -18,8 +18,12 @@ import static streamingplatform.StreamingPlatformConstants.NUMBER_OF_LIKES_PROPE
 import static streamingplatform.StreamingPlatformConstants.NUMBER_OF_RATINGS_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.YEAR_PROPERTY_NAME;
 
+/**
+ * Movie objects contain information about a specific movie: its name,
+ * the year it was filmed in, etc.
+ */
 @Getter
-public class Movie {
+public final class Movie {
     private String name;
     private int year;
     private int duration;
@@ -44,6 +48,10 @@ public class Movie {
         countriesBanned = movieInput.getCountriesBanned();
     }
 
+    /**
+     * Adds movie details properties to the given node.
+     * @param output The node to add the property to.
+     */
     public void addOutput(final ArrayNode output) {
         ObjectNode outputNode = output.addObject();
         outputNode.put(MOVIE_NAME_PROPERTY_NAME, name);
@@ -66,12 +74,19 @@ public class Movie {
         outputNode.put(NUMBER_OF_RATINGS_PROPERTY_NAME, numRatings);
     }
 
+    /**
+     * Changes the rating of the movie.
+     * @param newRating The new rating to be taken into consideration.
+     */
     public void addRating(final int newRating) {
         allRatingStars += newRating;
         numRatings++;
         this.rating = (double) allRatingStars / (double) numRatings;
     }
 
+    /**
+     * Adds a like to the movie.
+     */
     public void addLike() {
         this.numLikes++;
     }
