@@ -5,29 +5,28 @@ import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
 import static streamingplatform.StreamingPlatformConstants.LIKE_ACTION;
 
-public class LikeCommand extends Command{
-
-    public LikeCommand(ActionInput action) {
+public final class LikeCommand extends Command {
+    public LikeCommand(final ActionInput action) {
         super(action);
     }
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains(LIKE_ACTION)){
+        if (!platform.getCurrentPage().getPossibleActions().contains(LIKE_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(platform.getCurrentPage().getVisibleMovies().size() == 0){
+        if (platform.getCurrentPage().getVisibleMovies().size() == 0) {
             platform.addErrorOutputNode();
             return;
         }
         Movie currentViewedMovie = platform.getCurrentPage().getVisibleMovies().get(0);
         User currentUser = platform.getCurrentUser();
-        if(!currentUser.getWatchedMovies().contains(currentViewedMovie)){
+        if (!currentUser.getWatchedMovies().contains(currentViewedMovie)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(currentUser.getLikedMovies().contains(currentViewedMovie)){
+        if (currentUser.getLikedMovies().contains(currentViewedMovie)) {
             platform.addErrorOutputNode();
             return;
         }

@@ -1,6 +1,5 @@
 package streamingplatform;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import input.ActionInput;
@@ -15,20 +14,17 @@ import streamingplatform.database.Database;
 import streamingplatform.movie.Movie;
 import streamingplatform.page.Page;
 import streamingplatform.page.UnauthenticatedHomepage;
-import streamingplatform.page.UnauthenticatedPage;
 import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_VALUE;
 import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
 import streamingplatform.user.User;
 
-import java.util.stream.Stream;
-
-public class StreamingPlatform {
+public final class StreamingPlatform {
 
     // Lombok makes everything so much easier, it's great!
     @Getter
-    private static final StreamingPlatform instance = new StreamingPlatform();
+    private static final StreamingPlatform INSTANCE = new StreamingPlatform();
     @Getter
     private ArrayNode output;
     @Getter
@@ -43,10 +39,12 @@ public class StreamingPlatform {
     @Getter
     @Setter
     private User currentUser;
-    private StreamingPlatform(){}
+    private StreamingPlatform() {
+
+    }
     private CommandParser commandParser;
 
-    public void bootUp(Input inputData, ArrayNode output) {
+    public void bootUp(final Input inputData, final ArrayNode output) {
         this.inputData = inputData;
         this.output = output;
         this.userDatabase = new Database<User>();
@@ -55,36 +53,35 @@ public class StreamingPlatform {
         this.commandParser = new CommandParser();
         this.currentPage = new UnauthenticatedHomepage();
 
-        for(UserInput userInput: inputData.getUsers()){
+        for (UserInput userInput: inputData.getUsers()) {
             userDatabase.addEntry(new User(userInput));
         }
 
-        for(MovieInput movieInput: inputData.getMovies()){
+        for (MovieInput movieInput: inputData.getMovies()) {
             movieDatabase.addEntry(new Movie(movieInput));
         }
 
-        for(ActionInput actionInput: inputData.getActions()){
+        for (ActionInput actionInput: inputData.getActions()) {
             commandParser.addCommand(CommandFactory.create(actionInput));
         }
 
         commandParser.executeAll();
     }
 
-    public void addErrorOutputNode(){
+    public void addErrorOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.put(ERROR_PROPERTY_NAME, ERROR_PROPERTY_VALUE);
         newNode.putNull(CURRENT_USER_PROPERTY_NAME);
         newNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
     }
 
-    public void addOutputNode(){
+    public void addOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.putNull(ERROR_PROPERTY_NAME);
-        if(currentUser != null){
+        if (currentUser != null) {
             ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
             currentUser.addOutput(userNode);
-        }
-        else{
+        } else {
             newNode.putNull(CURRENT_USER_PROPERTY_NAME);
         }
         currentPage.addOutput(newNode);

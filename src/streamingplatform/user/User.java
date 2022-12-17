@@ -9,7 +9,19 @@ import streamingplatform.movie.Movie;
 
 import java.util.ArrayList;
 
-import static streamingplatform.StreamingPlatformConstants.*;
+import static streamingplatform.StreamingPlatformConstants.ACCOUNT_TYPE_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.BALANCE_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.COUNTRY_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.CREDENTIALS_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.FREE_PREMIUM_MOVIES_COUNT_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.INITIAL_FREE_MOVIES_COUNT;
+import static streamingplatform.StreamingPlatformConstants.LIKED_MOVIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.PASSWORD_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.PURCHASED_MOVIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.RATED_MOVIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.TOKENS_COUNT_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.USERNAME_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.WATCHED_MOVIES_PROPERTY_NAME;
 
 
 @Getter
@@ -21,20 +33,21 @@ public class User {
     private String country;
     private int balance;
     private int tokensCount = 0;
-    private int numFreePremiumMovies = 15;
+    private int numFreePremiumMovies = INITIAL_FREE_MOVIES_COUNT;
     private ArrayList<Movie> purchasedMovies =  new ArrayList<Movie>();
     private ArrayList<Movie> watchedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> likedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> ratedMovies = new ArrayList<Movie>();
 
-    public User(String name, String password, String accountType, String country, int balance){
+    public User(final String name, final String password,
+                final String accountType, final String country, final int balance) {
         this.name = name;
         this.password = password;
         this.accountType = accountType;
         this.country = country;
         this.balance = balance;
     }
-    public User(UserInput input){
+    public User(final UserInput input) {
         this.name = input.getCredentials().getName();
         this.password = input.getCredentials().getPassword();
         this.accountType = input.getCredentials().getAccountType();
@@ -42,7 +55,7 @@ public class User {
         this.balance = input.getCredentials().getBalance();
     }
 
-    public void addOutput(ObjectNode outputNode){
+    public void addOutput(final ObjectNode outputNode) {
         ObjectNode credentialsNode = outputNode.putObject(CREDENTIALS_PROPERTY_NAME);
         credentialsNode.put(USERNAME_PROPERTY_NAME, name);
         credentialsNode.put(PASSWORD_PROPERTY_NAME, password);
@@ -56,16 +69,16 @@ public class User {
         ArrayNode likedMoviesNode = outputNode.putArray(LIKED_MOVIES_PROPERTY_NAME);
         ArrayNode ratedMoviesNode = outputNode.putArray(RATED_MOVIES_PROPERTY_NAME);
 
-        for(Movie movie: purchasedMovies){
+        for (Movie movie: purchasedMovies) {
             movie.addOutput(purchasedMoviesNode);
         }
-        for(Movie movie: watchedMovies){
+        for (Movie movie: watchedMovies) {
             movie.addOutput(watchedMoviesNode);
         }
-        for(Movie movie: likedMovies){
+        for (Movie movie: likedMovies) {
             movie.addOutput(likedMoviesNode);
         }
-        for(Movie movie: ratedMovies){
+        for (Movie movie: ratedMovies) {
             movie.addOutput(ratedMoviesNode);
         }
     }

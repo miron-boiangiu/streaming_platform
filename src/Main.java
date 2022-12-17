@@ -7,16 +7,17 @@ import streamingplatform.StreamingPlatform;
 import java.io.File;
 import java.io.IOException;
 
-import static java.lang.Thread.sleep;
+public final class Main {
+    private Main() {
 
-public class Main {
-    public static void main(String[] args) throws IOException {
+    }
+    public static void main(final String[] args) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData = objectMapper.readValue(new File(args[0]), Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
 
-        StreamingPlatform.getInstance().bootUp(inputData, output);
+        StreamingPlatform.getINSTANCE().bootUp(inputData, output);
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(args[1]), output);
     }

@@ -8,18 +8,18 @@ import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUT
 import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_FREE_TOKEN_PRICE;
 import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_PRICE;
 
-public class PurchaseCommand extends Command{
-    public PurchaseCommand(ActionInput action) {
+public final class PurchaseCommand extends Command {
+    public PurchaseCommand(final ActionInput action) {
         super(action);
     }
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains(PURCHASE_ACTION)){
+        if (!platform.getCurrentPage().getPossibleActions().contains(PURCHASE_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(platform.getCurrentPage().getVisibleMovies().size() == 0){
+        if (platform.getCurrentPage().getVisibleMovies().size() == 0) {
             platform.addErrorOutputNode();
             return;
         }
@@ -29,17 +29,16 @@ public class PurchaseCommand extends Command{
         int currentFreeMoviesCount = currentUser.getNumFreePremiumMovies();
         String accountType = currentUser.getAccountType();
 
-        if(currentUser.getPurchasedMovies().contains(currentViewedMovie)){
+        if (currentUser.getPurchasedMovies().contains(currentViewedMovie)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(accountType.equals(PREMIUM_USER_ATTRIBUTE) && currentFreeMoviesCount >= PURCHASE_MOVIE_FREE_TOKEN_PRICE){
-            currentFreeMoviesCount-=PURCHASE_MOVIE_FREE_TOKEN_PRICE;
-        }
-        else if(currentTokens >= PURCHASE_MOVIE_PRICE){
-            currentTokens-=PURCHASE_MOVIE_PRICE;
-        }
-        else{
+        if (accountType.equals(PREMIUM_USER_ATTRIBUTE)
+                && currentFreeMoviesCount >= PURCHASE_MOVIE_FREE_TOKEN_PRICE) {
+            currentFreeMoviesCount -= PURCHASE_MOVIE_FREE_TOKEN_PRICE;
+        } else if (currentTokens >= PURCHASE_MOVIE_PRICE) {
+            currentTokens -= PURCHASE_MOVIE_PRICE;
+        } else {
             platform.addErrorOutputNode();
             return;
         }
@@ -48,6 +47,5 @@ public class PurchaseCommand extends Command{
         currentUser.setNumFreePremiumMovies(currentFreeMoviesCount);
         currentUser.getPurchasedMovies().add(currentViewedMovie);
         platform.addOutputNode();
-        return;
     }
 }

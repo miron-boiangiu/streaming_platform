@@ -16,12 +16,14 @@ import static streamingplatform.StreamingPlatformConstants.PURCHASE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.WATCH_ACTION;
 import static streamingplatform.StreamingPlatformConstants.BUY_TOKENS_ACTION;
 
-public class CommandFactory {
-    public static Command create(ActionInput input){
-        if(Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)){
+public final class CommandFactory {
+    private CommandFactory() {
+
+    }
+    public static Command create(final ActionInput input) {
+        if (Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)) {
             return new ChangePageCommand(input);
-        }
-        else if(Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)){
+        } else if (Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)) {
             switch (input.getFeature()) {
                 case LOGIN_ACTION: return new LoginCommand(input);
                 case REGISTER_ACTION: return new RegisterCommand(input);
@@ -33,8 +35,9 @@ public class CommandFactory {
                 case PURCHASE_ACTION: return new PurchaseCommand(input);
                 case WATCH_ACTION: return new WatchCommand(input);
                 case BUY_TOKENS_ACTION: return new BuyTokensCommand(input);
+                default: throw new IllegalArgumentException();
             }
         }
-        throw new IllegalArgumentException();
+        return null;
     }
 }

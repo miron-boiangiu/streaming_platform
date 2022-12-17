@@ -8,8 +8,11 @@ import static streamingplatform.StreamingPlatformConstants.MOVIES_PAGE;
 import static streamingplatform.StreamingPlatformConstants.SEE_DETAILS_PAGE;
 import static streamingplatform.StreamingPlatformConstants.UPGRADES_PAGE;
 
-public class PageFactory {
-    public static Page create(String pageName){
+public final class PageFactory {
+    private PageFactory() {
+
+    }
+    public static Page create(final String pageName) {
         switch (pageName) {
             case LOGIN_PAGE: return new LoginPage();
             case REGISTER_PAGE: return new RegisterPage();
@@ -19,7 +22,7 @@ public class PageFactory {
             case MOVIES_PAGE: return new MoviesPage();
             case SEE_DETAILS_PAGE: return new SeeDetailsPage();
             case UPGRADES_PAGE: return new UpgradesPage();
+            default: throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 }

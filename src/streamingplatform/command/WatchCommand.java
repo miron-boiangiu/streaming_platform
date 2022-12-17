@@ -5,19 +5,19 @@ import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
 import static streamingplatform.StreamingPlatformConstants.WATCH_ACTION;
 
-public class WatchCommand extends Command{
+public final class WatchCommand extends Command {
 
-    public WatchCommand(ActionInput action) {
+    public WatchCommand(final ActionInput action) {
         super(action);
     }
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains(WATCH_ACTION)){
+        if (!platform.getCurrentPage().getPossibleActions().contains(WATCH_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(platform.getCurrentPage().getVisibleMovies().size() == 0){
+        if (platform.getCurrentPage().getVisibleMovies().size() == 0) {
             platform.addErrorOutputNode();
             return;
         }
@@ -25,11 +25,11 @@ public class WatchCommand extends Command{
         Movie currentViewedMovie = platform.getCurrentPage().getVisibleMovies().get(0);
         User currentUser = platform.getCurrentUser();
 
-        if(!currentUser.getPurchasedMovies().contains(currentViewedMovie)){
+        if (!currentUser.getPurchasedMovies().contains(currentViewedMovie)) {
             platform.addErrorOutputNode();
             return;
         }
-        if(!currentUser.getWatchedMovies().contains(currentViewedMovie)){
+        if (!currentUser.getWatchedMovies().contains(currentViewedMovie)) {
             currentUser.getWatchedMovies().add(currentViewedMovie);
         }
         platform.addOutputNode();

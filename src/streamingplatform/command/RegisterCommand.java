@@ -10,8 +10,8 @@ import static streamingplatform.StreamingPlatformConstants.REGISTER_ACTION;
 import static streamingplatform.StreamingPlatformConstants.UNAUTHENTICATED_HOMEPAGE_PAGE;
 import static streamingplatform.StreamingPlatformConstants.AUTHENTICATED_HOMEPAGE_PAGE;
 
-public class RegisterCommand extends Command{
-    public RegisterCommand(ActionInput action) {
+public final class RegisterCommand extends Command {
+    public RegisterCommand(final ActionInput action) {
         super(action);
     }
 
@@ -20,18 +20,20 @@ public class RegisterCommand extends Command{
         String username = action.getCredentials().getName();
         String password = action.getCredentials().getPassword();
 
-        Database<User> userDatabase = StreamingPlatform.getInstance().getUserDatabase();
-        StreamingPlatform site = StreamingPlatform.getInstance();
+        Database<User> userDatabase = StreamingPlatform.getINSTANCE().getUserDatabase();
+        StreamingPlatform site = StreamingPlatform.getINSTANCE();
 
-        if(!StreamingPlatform.getInstance().getCurrentPage().getPossibleActions().contains(REGISTER_ACTION)){
-            ObjectNode newNode = StreamingPlatform.getInstance().getOutput().addObject();
+        if (!StreamingPlatform.getINSTANCE().getCurrentPage()
+                .getPossibleActions().contains(REGISTER_ACTION)) {
+            ObjectNode newNode = StreamingPlatform.getINSTANCE().getOutput().addObject();
             site.addErrorOutputNode();
             return;
         }
 
-        for(User user: userDatabase.getEntries()){
-            if(user.getName().equals(username)){
-                StreamingPlatform.getInstance().setCurrentPage(PageFactory.create(UNAUTHENTICATED_HOMEPAGE_PAGE));
+        for (User user: userDatabase.getEntries()) {
+            if (user.getName().equals(username)) {
+                StreamingPlatform.getINSTANCE().setCurrentPage(
+                        PageFactory.create(UNAUTHENTICATED_HOMEPAGE_PAGE));
                 site.addErrorOutputNode();
                 return;
             }
@@ -44,9 +46,8 @@ public class RegisterCommand extends Command{
         userDatabase.addEntry(newUser);
 
         site.setCurrentUser(newUser);
-        StreamingPlatform.getInstance().setCurrentPage(PageFactory.create(AUTHENTICATED_HOMEPAGE_PAGE));
+        StreamingPlatform.getINSTANCE().setCurrentPage(
+                PageFactory.create(AUTHENTICATED_HOMEPAGE_PAGE));
         site.addOutputNode();
-        return;
-
     }
 }

@@ -6,14 +6,14 @@ import streamingplatform.movie.Movie;
 import java.util.ArrayList;
 import static streamingplatform.StreamingPlatformConstants.SEARCH_ACTION;
 
-public class SearchCommand extends Command{
-    public SearchCommand(ActionInput action) {
+public final class SearchCommand extends Command {
+    public SearchCommand(final ActionInput action) {
         super(action);
     }
 
     @Override
     public void execute() {
-        if(!platform.getCurrentPage().getPossibleActions().contains(SEARCH_ACTION)){
+        if (!platform.getCurrentPage().getPossibleActions().contains(SEARCH_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }
@@ -24,8 +24,8 @@ public class SearchCommand extends Command{
         ArrayList<Movie> visibleMovies = platform.getCurrentPage().getVisibleMovies();
         visibleMovies.clear();
 
-        for(Movie movie: allMovies){
-            if(movie.getName().startsWith(startsWith)){
+        for (Movie movie: allMovies) {
+            if (movie.getName().startsWith(startsWith)) {
                 visibleMovies.add(movie);
             }
         }

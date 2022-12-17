@@ -1,7 +1,7 @@
 package streamingplatform.page;
 
-public class AuthenticatedHomepage extends AuthenticatedPage{
-    public AuthenticatedHomepage(){
+public class AuthenticatedHomepage extends AuthenticatedPage {
+    public AuthenticatedHomepage() {
         super();
     }
 }

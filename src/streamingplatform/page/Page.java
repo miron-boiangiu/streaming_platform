@@ -19,9 +19,9 @@ public abstract class Page {
     @Getter
     protected final ArrayList<String> possibleActions = new ArrayList<String>();
 
-    public void addOutput(ObjectNode outputNode){
+    public void addOutput(final ObjectNode outputNode) {
         ArrayNode outputArray = outputNode.putArray(CURRENT_MOVIES_LIST_PROPERTY_NAME);
-        for(Movie movie: visibleMovies){
+        for (Movie movie: visibleMovies) {
             movie.addOutput(outputArray);
         }
     }

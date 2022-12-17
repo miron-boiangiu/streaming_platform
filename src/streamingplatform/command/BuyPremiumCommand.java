@@ -7,8 +7,8 @@ import static streamingplatform.StreamingPlatformConstants.PREMIUM_ACCOUNT_PRICE
 import static streamingplatform.StreamingPlatformConstants.BUY_PREMIUM_ACTION;
 import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUTE;
 
-public class BuyPremiumCommand extends Command{
-    public BuyPremiumCommand(ActionInput action) {
+public final class BuyPremiumCommand extends Command {
+    public BuyPremiumCommand(final ActionInput action) {
         super(action);
     }
 
@@ -19,14 +19,14 @@ public class BuyPremiumCommand extends Command{
             return;
         }
 
-        User currentUser = StreamingPlatform.getInstance().getCurrentUser();
+        User currentUser = StreamingPlatform.getINSTANCE().getCurrentUser();
         int currentTokens = currentUser.getTokensCount();
 
-        if(currentTokens < PREMIUM_ACCOUNT_PRICE){
+        if (currentTokens < PREMIUM_ACCOUNT_PRICE) {
             platform.addErrorOutputNode();
             return;
         }
-        if(currentUser.getAccountType().equals(PREMIUM_USER_ATTRIBUTE)){
+        if (currentUser.getAccountType().equals(PREMIUM_USER_ATTRIBUTE)) {
             platform.addErrorOutputNode();
             return;
         }

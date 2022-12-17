@@ -5,9 +5,9 @@ import streamingplatform.StreamingPlatform;
 import streamingplatform.user.User;
 import static streamingplatform.StreamingPlatformConstants.BUY_TOKENS_ACTION;
 
-public class BuyTokensCommand extends Command{
+public final class BuyTokensCommand extends Command {
 
-    public BuyTokensCommand(ActionInput action) {
+    public BuyTokensCommand(final ActionInput action) {
         super(action);
     }
 
@@ -17,12 +17,12 @@ public class BuyTokensCommand extends Command{
             platform.addErrorOutputNode();
             return;
         }
-        User currentUser = StreamingPlatform.getInstance().getCurrentUser();
+        User currentUser = StreamingPlatform.getINSTANCE().getCurrentUser();
         int currentBalance = currentUser.getBalance();
         int wantedAmount = action.getCount();
         int currentTokens = currentUser.getTokensCount();
 
-        if(wantedAmount > currentBalance){
+        if (wantedAmount > currentBalance) {
             platform.addErrorOutputNode();
             return;
         }

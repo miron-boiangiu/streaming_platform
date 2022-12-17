@@ -2,16 +2,16 @@ package streamingplatform.command;
 
 import java.util.ArrayList;
 
-public class CommandParser {
+public final class CommandParser {
     private final ArrayList<Command> commandsToBeExecuted = new ArrayList<Command>();
 
-    public void addCommand(Command command){
+    public void addCommand(final Command command) {
         commandsToBeExecuted.add(command);
     }
 
-    public void executeAll(){
+    public void executeAll() {
         ArrayList<Command> executedCommands = new ArrayList<Command>();
-        for(Command command: commandsToBeExecuted){
+        for (Command command: commandsToBeExecuted) {
             command.execute();
             executedCommands.add(command);
         }

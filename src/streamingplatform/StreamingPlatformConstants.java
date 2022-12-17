@@ -29,25 +29,26 @@ public final class StreamingPlatformConstants {
     public static final String UPGRADES_PAGE = "upgrades";
     public static final String REGISTER_PAGE = "register";
 
-    // Shop prices
+    // Shop
+    public static final Integer INITIAL_FREE_MOVIES_COUNT = 15;
     public static final Integer PREMIUM_ACCOUNT_PRICE = 10;
     public static final Integer PURCHASE_MOVIE_PRICE = 2;
     public static final Integer PURCHASE_MOVIE_FREE_TOKEN_PRICE = 1;
 
-    // FILTER OPTIONS
+    // Filter options
     public static final String INCREASING_FILTER_OPTION = "increasing";
     public static final String DECREASING_FILTER_OPTION = "decreasing";
 
-    // RATE OPTIONS
+    // Rate options
     public static final Integer MAXIMUM_RATING_VALUE = 5;
     public static final Integer MINIMUM_RATING_VALUE = 0;
 
-    // OUTPUT
-    // ERRORS
+    // Output
+    // Errors output
     public static final String CURRENT_USER_PROPERTY_NAME = "currentUser";
     public static final String ERROR_PROPERTY_NAME = "error";
     public static final String ERROR_PROPERTY_VALUE = "Error";
-    // MOVIES
+    // Movies output
     public static final String CURRENT_MOVIES_LIST_PROPERTY_NAME = "currentMoviesList";
     public static final String MOVIE_NAME_PROPERTY_NAME = "name";
     public static final String YEAR_PROPERTY_NAME = "year";
@@ -59,7 +60,7 @@ public final class StreamingPlatformConstants {
     public static final String MOVIE_RATING_PROPERTY_NAME = "rating";
     public static final String NUMBER_OF_RATINGS_PROPERTY_NAME = "numRatings";
 
-    // USERS
+    // Users output
     public static final String CREDENTIALS_PROPERTY_NAME = "credentials";
     public static final String USERNAME_PROPERTY_NAME = "name";
     public static final String PASSWORD_PROPERTY_NAME = "password";
@@ -73,4 +74,7 @@ public final class StreamingPlatformConstants {
     public static final String LIKED_MOVIES_PROPERTY_NAME = "likedMovies";
     public static final String RATED_MOVIES_PROPERTY_NAME = "ratedMovies";
 
+    private StreamingPlatformConstants() {
+
+    }
 }

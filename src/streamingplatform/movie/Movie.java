@@ -8,7 +8,15 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-import static streamingplatform.StreamingPlatformConstants.*;
+import static streamingplatform.StreamingPlatformConstants.ACTORS_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.BANNED_COUNTRIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.DURATION_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.GENRES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.MOVIE_NAME_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.MOVIE_RATING_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.NUMBER_OF_LIKES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.NUMBER_OF_RATINGS_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.YEAR_PROPERTY_NAME;
 
 @Getter
 public class Movie {
@@ -27,7 +35,7 @@ public class Movie {
     @Setter
     private int numRatings = 0;
 
-    public Movie(MovieInput movieInput){
+    public Movie(final MovieInput movieInput) {
         name = movieInput.getName();
         year = movieInput.getYear();
         duration = movieInput.getDuration();
@@ -36,21 +44,21 @@ public class Movie {
         countriesBanned = movieInput.getCountriesBanned();
     }
 
-    public void addOutput(ArrayNode output){
+    public void addOutput(final ArrayNode output) {
         ObjectNode outputNode = output.addObject();
         outputNode.put(MOVIE_NAME_PROPERTY_NAME, name);
         outputNode.put(YEAR_PROPERTY_NAME, year);
         outputNode.put(DURATION_PROPERTY_NAME, duration);
         ArrayNode genresArray = outputNode.putArray(GENRES_PROPERTY_NAME);
-        for(String genre: genres){
+        for (String genre: genres) {
             genresArray.add(genre);
         }
         ArrayNode actorsArray = outputNode.putArray(ACTORS_PROPERTY_NAME);
-        for(String actor: actors){
+        for (String actor: actors) {
             actorsArray.add(actor);
         }
         ArrayNode countriesBannedArray = outputNode.putArray(BANNED_COUNTRIES_PROPERTY_NAME);
-        for(String country: countriesBanned){
+        for (String country: countriesBanned) {
             countriesBannedArray.add(country);
         }
         outputNode.put(NUMBER_OF_LIKES_PROPERTY_NAME, numLikes);
@@ -58,13 +66,13 @@ public class Movie {
         outputNode.put(NUMBER_OF_RATINGS_PROPERTY_NAME, numRatings);
     }
 
-    public void addRating(int rating){
-        allRatingStars += rating;
+    public void addRating(final int newRating) {
+        allRatingStars += newRating;
         numRatings++;
-        this.rating = (double)allRatingStars / (double) numRatings;
+        this.rating = (double) allRatingStars / (double) numRatings;
     }
 
-    public void addLike(){
+    public void addLike() {
         this.numLikes++;
     }
 }
