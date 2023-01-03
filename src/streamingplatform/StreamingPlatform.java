@@ -8,6 +8,7 @@ import input.MovieInput;
 import input.UserInput;
 import lombok.Getter;
 import lombok.Setter;
+import streamingplatform.command.Command;
 import streamingplatform.command.CommandFactory;
 import streamingplatform.command.CommandParser;
 import streamingplatform.database.Database;
@@ -19,6 +20,8 @@ import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
 import streamingplatform.user.User;
+
+import java.util.ArrayList;
 
 public final class StreamingPlatform {
 
@@ -39,6 +42,8 @@ public final class StreamingPlatform {
     @Getter
     @Setter
     private User currentUser;
+    @Getter
+    private final ArrayList<Command> executedCommandsForCurrentUser = new ArrayList<Command>();
     private StreamingPlatform() {
 
     }

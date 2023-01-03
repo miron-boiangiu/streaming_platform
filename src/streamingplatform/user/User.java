@@ -42,6 +42,8 @@ public final class User {
     private ArrayList<Movie> likedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> ratedMovies = new ArrayList<Movie>();
 
+    private ArrayList<Notification> notifications = new ArrayList<Notification>();
+
     public User(final String name, final String password,
                 final String accountType, final String country, final int balance) {
         this.name = name;
@@ -75,6 +77,8 @@ public final class User {
         ArrayNode watchedMoviesNode = outputNode.putArray(WATCHED_MOVIES_PROPERTY_NAME);
         ArrayNode likedMoviesNode = outputNode.putArray(LIKED_MOVIES_PROPERTY_NAME);
         ArrayNode ratedMoviesNode = outputNode.putArray(RATED_MOVIES_PROPERTY_NAME);
+        // TODO: Add notifications support.
+        ArrayNode notifications = outputNode.putArray("notifications");
 
         for (Movie movie: purchasedMovies) {
             movie.addOutput(purchasedMoviesNode);

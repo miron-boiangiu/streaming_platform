@@ -2,6 +2,7 @@ package streamingplatform.command;
 
 import input.ActionInput;
 import streamingplatform.movie.Movie;
+import streamingplatform.page.Page;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ public final class FilterCommand extends Command {
         filterMoviesByContains(visibleMovies);
         sortMovies(visibleMovies);
         platform.addOutputNode();
+        hasSucceeded = true;
     }
     private void sortMovies(final ArrayList<Movie> movies) {
         if (action.getFilters().getSort() == null) {

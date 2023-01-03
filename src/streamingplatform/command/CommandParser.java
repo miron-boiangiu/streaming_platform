@@ -1,5 +1,8 @@
 package streamingplatform.command;
 
+import lombok.Getter;
+import streamingplatform.StreamingPlatform;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +10,6 @@ import java.util.ArrayList;
  */
 public final class CommandParser {
     private final ArrayList<Command> commandsToBeExecuted = new ArrayList<Command>();
-
     /**
      * Adds a command to the "to-be-executed" list.
      * @param command The command to add.
@@ -20,12 +22,13 @@ public final class CommandParser {
      * Executes all commands left.
      */
     public void executeAll() {
-        ArrayList<Command> executedCommands = new ArrayList<Command>();
-        for (Command command: commandsToBeExecuted) {
+        StreamingPlatform platform = StreamingPlatform.getINSTANCE();
+        ArrayList<Command> executedCommands = platform.getExecutedCommandsForCurrentUser();
+        for (Command command: new ArrayList<Command>(commandsToBeExecuted)) {
             command.execute();
             executedCommands.add(command);
+            commandsToBeExecuted.remove(command);
         }
-        commandsToBeExecuted.removeAll(executedCommands);
     }
 
 }

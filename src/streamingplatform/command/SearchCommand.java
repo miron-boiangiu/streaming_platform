@@ -2,6 +2,7 @@ package streamingplatform.command;
 
 import input.ActionInput;
 import streamingplatform.movie.Movie;
+import streamingplatform.page.Page;
 
 import java.util.ArrayList;
 import static streamingplatform.StreamingPlatformConstants.SEARCH_ACTION;
@@ -19,7 +20,6 @@ public final class SearchCommand extends Command {
         }
 
         String startsWith = action.getStartsWith();
-
         ArrayList<Movie> allMovies = platform.getCurrentPage().getAllAccessibleMovies();
         ArrayList<Movie> visibleMovies = platform.getCurrentPage().getVisibleMovies();
         visibleMovies.clear();
@@ -31,5 +31,6 @@ public final class SearchCommand extends Command {
         }
 
         platform.addOutputNode();
+        hasSucceeded = true;
     }
 }

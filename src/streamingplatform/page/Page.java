@@ -11,6 +11,7 @@ import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_P
  *  Main class for pages, describing the structure all pages must follow.
  */
 public abstract class Page {
+    // TODO: Add pageName to all pages.
     @Getter
     protected String pageName;
     @Getter
@@ -21,6 +22,8 @@ public abstract class Page {
     protected final ArrayList<String> accessiblePages = new ArrayList<String>();
     @Getter
     protected final ArrayList<String> possibleActions = new ArrayList<String>();
+    @Getter
+    protected boolean hasOutput = false;
 
     /**
      * Adds visible movies property to the given node.

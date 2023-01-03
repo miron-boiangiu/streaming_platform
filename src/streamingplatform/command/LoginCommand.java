@@ -35,6 +35,7 @@ public final class LoginCommand extends Command {
                 StreamingPlatform.getINSTANCE().setCurrentPage(
                         PageFactory.create(AUTHENTICATED_HOMEPAGE_PAGE));
                 site.addOutputNode();
+                site.getExecutedCommandsForCurrentUser().clear();
                 return;
             }
         }

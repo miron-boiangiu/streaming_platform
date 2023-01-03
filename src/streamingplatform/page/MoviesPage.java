@@ -15,7 +15,7 @@ public class MoviesPage extends AuthenticatedPage {
         super();
         this.possibleActions.addAll(List.of(SEARCH_ACTION, FILTER_ACTION));
         this.accessiblePages.add(SEE_DETAILS_PAGE);
-
+        this.hasOutput = true;
         StreamingPlatform site = StreamingPlatform.getINSTANCE();
         Database<Movie> movieDatabase = site.getMovieDatabase();
         User currentUser = site.getCurrentUser();

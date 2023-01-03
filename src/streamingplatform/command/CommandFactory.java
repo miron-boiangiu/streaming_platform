@@ -32,6 +32,8 @@ public final class CommandFactory {
     public static Command create(final ActionInput input) {
         if (Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)) {
             return new ChangePageCommand(input);
+        } else if (Objects.equals(input.getType(), "back")){
+            return new BackCommand(input);
         } else if (Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)) {
             switch (input.getFeature()) {
                 case LOGIN_ACTION: return new LoginCommand(input);
