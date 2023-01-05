@@ -8,6 +8,7 @@ import lombok.Setter;
 import streamingplatform.movie.Movie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static streamingplatform.StreamingPlatformConstants.ACCOUNT_TYPE_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.BALANCE_PROPERTY_NAME;
@@ -42,8 +43,8 @@ public final class User {
     private ArrayList<Movie> likedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> ratedMovies = new ArrayList<Movie>();
     private ArrayList<String> subscribedGenres = new ArrayList<String>();
-
     private ArrayList<Notification> notifications = new ArrayList<Notification>();
+    private HashMap<Movie, Integer> userRatings = new HashMap<>();
 
     public User(final String name, final String password,
                 final String accountType, final String country, final int balance) {
@@ -63,7 +64,8 @@ public final class User {
 
     public void updateAboutNewMovie(Movie newMovie){
         String movieName = newMovie.getName();
-        notifications.add(new Notification(movieName, "ADD"));
+        if(!newMovie.getCountriesBanned().contains(country))
+            notifications.add(new Notification(movieName, "ADD"));
     }
 
     public void updateAboutDeletedMovie(Movie deletedMovie){

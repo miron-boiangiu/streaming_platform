@@ -20,9 +20,16 @@ import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_VALUE;
 import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.INCREASING_FILTER_OPTION;
+
+import streamingplatform.user.Notification;
 import streamingplatform.user.User;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public final class StreamingPlatform {
 
@@ -79,6 +86,10 @@ public final class StreamingPlatform {
         }
 
         commandParser.executeAll();
+
+        if(currentUser != null && currentUser.getAccountType().equals("premium")){
+            recommendNewMovie();
+        }
     }
 
     /**
@@ -98,6 +109,7 @@ public final class StreamingPlatform {
     public void addOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.putNull(ERROR_PROPERTY_NAME);
+        newNode.putNull("currentMoviesList");
         if (currentUser != null) {
             ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
             currentUser.addOutput(userNode);
@@ -105,5 +117,76 @@ public final class StreamingPlatform {
             newNode.putNull(CURRENT_USER_PROPERTY_NAME);
         }
         currentPage.addOutput(newNode);
+    }
+
+    public void recommendNewMovie(){
+        ObjectNode newNode = output.addObject();
+        String recommendation = "No recommendation";
+        @Getter
+        @Setter
+        class GenreRecommendation{
+                private String genre;
+                private Integer numberOfLikes = 0;
+
+
+            public GenreRecommendation(String genre, Integer numberOfLikes) {
+                this.genre = genre;
+                this.numberOfLikes = numberOfLikes;
+            }
+        }
+        class GenreRecommendationComparator implements Comparator<GenreRecommendation> {
+            public int compare(final GenreRecommendation a, final GenreRecommendation b) {
+                if (!a.getNumberOfLikes().equals(b.getNumberOfLikes()))
+                    return b.getNumberOfLikes() - a.getNumberOfLikes();
+                return a.getGenre().compareTo(b.getGenre());
+            }
+        }
+
+        ArrayList<GenreRecommendation> genres = new ArrayList<>();
+        HashMap<String, Integer> genresAndLikes = new HashMap<>();
+
+        for(Movie likedMovie: currentUser.getLikedMovies()){
+            for(String genre: likedMovie.getGenres()){
+                if(genresAndLikes.containsKey(genre)){
+                    genresAndLikes.put(genre, genresAndLikes.get(genre) + 1);
+                } else {
+                    genresAndLikes.put(genre, 1);
+                }
+            }
+        }
+
+        for(Map.Entry<String, Integer> entry: genresAndLikes.entrySet()){
+            genres.add(new GenreRecommendation(entry.getKey(), entry.getValue()));
+        }
+
+        genres.sort(new GenreRecommendationComparator());
+
+        for(GenreRecommendation genreRecommendation: genres){
+            ArrayList<Movie> moviesOfCurrentGenre = new ArrayList<>();
+            for(Movie movie: StreamingPlatform.getINSTANCE().getMovieDatabase().getEntries()){
+                if(movie.getCountriesBanned().contains(currentUser.getCountry())){
+                    continue;
+                }
+                if(!movie.getGenres().contains(genreRecommendation.getGenre())){
+                    continue;
+                }
+                if(currentUser.getWatchedMovies().contains(movie)){
+                    continue;
+                }
+                moviesOfCurrentGenre.add(movie);
+            }
+            if(moviesOfCurrentGenre.size() == 0){
+                continue;
+            }
+            moviesOfCurrentGenre.sort((m1, m2) -> m2.getNumLikes() - m1.getNumLikes());
+            recommendation = moviesOfCurrentGenre.get(0).getName();
+            break;
+        }
+
+        currentUser.getNotifications().add(new Notification(recommendation, "Recommendation"));
+        newNode.putNull(ERROR_PROPERTY_NAME);
+        newNode.putNull("currentMoviesList");
+        ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
+        currentUser.addOutput(userNode);
     }
 }

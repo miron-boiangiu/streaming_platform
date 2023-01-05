@@ -1,6 +1,7 @@
 package streamingplatform.database;
 
 import lombok.Getter;
+import streamingplatform.StreamingPlatform;
 import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
 
@@ -41,6 +42,7 @@ public class MovieDatabase extends Database<Movie>{
         }
 
         if(movieToRemove == null){
+            StreamingPlatform.getINSTANCE().addErrorOutputNode();
             return;
         }
 

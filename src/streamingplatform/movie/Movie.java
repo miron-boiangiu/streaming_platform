@@ -8,6 +8,7 @@ import lombok.Setter;
 import streamingplatform.user.User;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static streamingplatform.StreamingPlatformConstants.ACTORS_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.BANNED_COUNTRIES_PROPERTY_NAME;
@@ -91,10 +92,29 @@ public final class Movie {
         this.rating = (double) allRatingStars / (double) numRatings;
     }
 
+    public void removeRating(final int oldRating){
+        numRatings--;
+        allRatingStars -= oldRating;
+        this.rating = (double) allRatingStars / (double) numRatings;
+    }
+
     /**
      * Adds a like to the movie.
      */
     public void addLike() {
         this.numLikes++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return year == movie.year && duration == movie.duration && name.equals(movie.name) && Objects.equals(genres, movie.genres) && Objects.equals(actors, movie.actors) && Objects.equals(countriesBanned, movie.countriesBanned);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, year, duration);
     }
 }

@@ -29,16 +29,18 @@ public final class RateCommand extends Command {
             platform.addErrorOutputNode();
             return;
         }
-        if (currentUser.getRatedMovies().contains(currentViewedMovie)) {
-            platform.addErrorOutputNode();
-            return;
-        }
         if (action.getRate() > MAXIMUM_RATING_VALUE || action.getRate() < MINIMUM_RATING_VALUE) {
             platform.addErrorOutputNode();
             return;
         }
+        if (currentUser.getRatedMovies().contains(currentViewedMovie)) {
+            Integer oldRating = currentUser.getUserRatings().get(currentViewedMovie);
+            currentViewedMovie.removeRating(oldRating);
+        } else {
+            currentUser.getRatedMovies().add(currentViewedMovie);
+        }
+        currentUser.getUserRatings().put(currentViewedMovie, action.getRate());
         currentViewedMovie.addRating(action.getRate());
-        currentUser.getRatedMovies().add(currentViewedMovie);
         platform.addOutputNode();
     }
 }
