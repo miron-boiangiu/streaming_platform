@@ -55,7 +55,7 @@ public final class Movie {
     public void addOutput(final ArrayNode output) {
         ObjectNode outputNode = output.addObject();
         outputNode.put(MOVIE_NAME_PROPERTY_NAME, name);
-        outputNode.put(YEAR_PROPERTY_NAME, year);
+        outputNode.put(YEAR_PROPERTY_NAME, Integer.toString(year));
         outputNode.put(DURATION_PROPERTY_NAME, duration);
         ArrayNode genresArray = outputNode.putArray(GENRES_PROPERTY_NAME);
         for (String genre: genres) {

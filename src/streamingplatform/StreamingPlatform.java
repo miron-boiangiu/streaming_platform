@@ -12,6 +12,7 @@ import streamingplatform.command.Command;
 import streamingplatform.command.CommandFactory;
 import streamingplatform.command.CommandParser;
 import streamingplatform.database.Database;
+import streamingplatform.database.MovieDatabase;
 import streamingplatform.movie.Movie;
 import streamingplatform.page.Page;
 import streamingplatform.page.UnauthenticatedHomepage;
@@ -38,12 +39,12 @@ public final class StreamingPlatform {
     @Getter
     private Database<User> userDatabase;
     @Getter
-    private Database<Movie> movieDatabase;
+    private MovieDatabase movieDatabase;
     @Getter
     @Setter
     private User currentUser;
     @Getter
-    private final ArrayList<Command> executedCommandsForCurrentUser = new ArrayList<Command>();
+    private ArrayList<Command> executedCommandsForCurrentUser = new ArrayList<Command>();
     private StreamingPlatform() {
 
     }
@@ -59,10 +60,11 @@ public final class StreamingPlatform {
         this.inputData = inputData;
         this.output = output;
         this.userDatabase = new Database<User>();
-        this.movieDatabase = new Database<Movie>();
+        this.movieDatabase = new MovieDatabase();
         this.currentUser = null;
         this.commandParser = new CommandParser();
         this.currentPage = new UnauthenticatedHomepage();
+        this.executedCommandsForCurrentUser = new ArrayList<>();
 
         for (UserInput userInput: inputData.getUsers()) {
             userDatabase.addEntry(new User(userInput));

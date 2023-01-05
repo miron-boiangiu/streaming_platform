@@ -41,6 +41,7 @@ public final class User {
     private ArrayList<Movie> watchedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> likedMovies = new ArrayList<Movie>();
     private ArrayList<Movie> ratedMovies = new ArrayList<Movie>();
+    private ArrayList<String> subscribedGenres = new ArrayList<String>();
 
     private ArrayList<Notification> notifications = new ArrayList<Notification>();
 
@@ -60,6 +61,11 @@ public final class User {
         this.balance = input.getCredentials().getBalance();
     }
 
+    public void updateAboutNewMovie(Movie newMovie){
+        String movieName = newMovie.getName();
+        notifications.add(new Notification(movieName, "ADD"));
+    }
+
     /**
      * Adds user information properties to the given node.
      * @param outputNode The node to add the property to.
@@ -77,8 +83,7 @@ public final class User {
         ArrayNode watchedMoviesNode = outputNode.putArray(WATCHED_MOVIES_PROPERTY_NAME);
         ArrayNode likedMoviesNode = outputNode.putArray(LIKED_MOVIES_PROPERTY_NAME);
         ArrayNode ratedMoviesNode = outputNode.putArray(RATED_MOVIES_PROPERTY_NAME);
-        // TODO: Add notifications support.
-        ArrayNode notifications = outputNode.putArray("notifications");
+        ArrayNode notificationsNode = outputNode.putArray("notifications");
 
         for (Movie movie: purchasedMovies) {
             movie.addOutput(purchasedMoviesNode);
@@ -91,6 +96,9 @@ public final class User {
         }
         for (Movie movie: ratedMovies) {
             movie.addOutput(ratedMoviesNode);
+        }
+        for(Notification notification: notifications){
+            notification.addOutput(notificationsNode);
         }
     }
 }

@@ -23,7 +23,7 @@ public abstract class Page {
     @Getter
     protected final ArrayList<String> possibleActions = new ArrayList<String>();
     @Getter
-    protected boolean hasOutput = false;
+    protected boolean hasBackOutput = false;
 
     /**
      * Adds visible movies property to the given node.

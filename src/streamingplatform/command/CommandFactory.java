@@ -32,8 +32,13 @@ public final class CommandFactory {
     public static Command create(final ActionInput input) {
         if (Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)) {
             return new ChangePageCommand(input);
-        } else if (Objects.equals(input.getType(), "back")){
+        } else if (Objects.equals(input.getType(), "back")) {
             return new BackCommand(input);
+        } else if (Objects.equals(input.getType(), "database")){
+            switch (input.getFeature()) {
+                case "add": return new DatabaseAddCommand(input);
+                default: throw new IllegalArgumentException();
+            }
         } else if (Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)) {
             switch (input.getFeature()) {
                 case LOGIN_ACTION: return new LoginCommand(input);
@@ -46,6 +51,7 @@ public final class CommandFactory {
                 case PURCHASE_ACTION: return new PurchaseCommand(input);
                 case WATCH_ACTION: return new WatchCommand(input);
                 case BUY_TOKENS_ACTION: return new BuyTokensCommand(input);
+                case "subscribe": return new SubscribeCommand(input);
                 default: throw new IllegalArgumentException();
             }
         }

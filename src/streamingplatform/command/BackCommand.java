@@ -26,7 +26,7 @@ public class BackCommand extends Command{
         }
 
         if(hasGoneBack) {
-            if(platform.getCurrentPage().isHasOutput()){ // TODO: Can you change Lombok getter prefix?
+            if(platform.getCurrentPage().isHasBackOutput()){ // TODO: Can you change Lombok getter prefix?
                 platform.addOutputNode();
             }
         } else {
