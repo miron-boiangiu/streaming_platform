@@ -46,6 +46,7 @@ public final class PurchaseCommand extends Command {
         currentUser.setTokensCount(currentTokens);
         currentUser.setNumFreePremiumMovies(currentFreeMoviesCount);
         currentUser.getPurchasedMovies().add(currentViewedMovie);
+        currentViewedMovie.addOwner(currentUser);
         platform.addOutputNode();
     }
 }

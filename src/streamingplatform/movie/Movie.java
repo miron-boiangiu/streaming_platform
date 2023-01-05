@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import input.MovieInput;
 import lombok.Getter;
 import lombok.Setter;
+import streamingplatform.user.User;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,8 @@ public final class Movie {
     private int numLikes = 0;
     @Setter
     private int numRatings = 0;
+    @Getter
+    private ArrayList<User> movieOwners = new ArrayList<>();
 
     public Movie(final MovieInput movieInput) {
         name = movieInput.getName();
@@ -46,6 +49,10 @@ public final class Movie {
         genres = movieInput.getGenres();
         actors = movieInput.getActors();
         countriesBanned = movieInput.getCountriesBanned();
+    }
+
+    public void addOwner(final User user){
+        movieOwners.add(user);
     }
 
     /**

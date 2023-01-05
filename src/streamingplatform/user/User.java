@@ -66,6 +66,20 @@ public final class User {
         notifications.add(new Notification(movieName, "ADD"));
     }
 
+    public void updateAboutDeletedMovie(Movie deletedMovie){
+        String movieName = deletedMovie.getName();
+        notifications.add(new Notification(movieName, "DELETE"));
+        if(accountType.equals("premium")){
+            numFreePremiumMovies++;
+        } else {
+            this.tokensCount += 2;
+        }
+        purchasedMovies.remove(deletedMovie);
+        ratedMovies.remove(deletedMovie);
+        watchedMovies.remove(deletedMovie);
+        likedMovies.remove(deletedMovie);
+    }
+
     /**
      * Adds user information properties to the given node.
      * @param outputNode The node to add the property to.

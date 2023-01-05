@@ -37,6 +37,7 @@ public final class CommandFactory {
         } else if (Objects.equals(input.getType(), "database")){
             switch (input.getFeature()) {
                 case "add": return new DatabaseAddCommand(input);
+                case "delete": return new DatabaseDeleteCommand(input);
                 default: throw new IllegalArgumentException();
             }
         } else if (Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)) {

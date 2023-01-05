@@ -31,6 +31,26 @@ public class MovieDatabase extends Database<Movie>{
 
     }
 
+    public void removeEntry(String removedEntryName){
+        Movie movieToRemove = null;
+        for(Movie entry: entries){
+            if(entry.getName().equals(removedEntryName)){
+                movieToRemove = entry;
+                break;
+            }
+        }
+
+        if(movieToRemove == null){
+            return;
+        }
+
+        for(User user: movieToRemove.getMovieOwners()){
+            user.updateAboutDeletedMovie(movieToRemove);
+        }
+
+        entries.remove(movieToRemove);
+    }
+
     public boolean addSubscriber(final User user, final String genre) {
         if (!userSubscriptions.containsKey(genre)) {
             userSubscriptions.put(genre, new HashSet<>());

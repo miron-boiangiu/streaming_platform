@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Database<T> {
     @Getter
-    private final ArrayList<T> entries = new ArrayList<T>();
+    protected final ArrayList<T> entries = new ArrayList<T>();
 
     /**
      * Adds an entry to the database.
