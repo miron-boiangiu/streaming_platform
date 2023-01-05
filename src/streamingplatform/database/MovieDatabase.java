@@ -15,6 +15,13 @@ public class MovieDatabase extends Database<Movie>{
 
     @Override
     public void addEntry(Movie newEntry) {
+        for(Movie movie: entries){
+            if(movie.getName().equals(newEntry.getName())){
+                StreamingPlatform.getINSTANCE().addErrorOutputNode();
+                return;
+            }
+        }
+
         super.addEntry(newEntry);
         ArrayList<User> notifiedUsers = new ArrayList<>();
 

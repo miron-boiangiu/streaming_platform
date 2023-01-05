@@ -14,7 +14,6 @@ public final class RateCommand extends Command {
 
     @Override
     public void execute() {
-        // TODO: Users can rate a movie twice.
         if (!platform.getCurrentPage().getPossibleActions().contains(RATE_ACTION)) {
             platform.addErrorOutputNode();
             return;
