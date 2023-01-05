@@ -44,7 +44,7 @@ public final class RegisterCommand extends Command {
         String type = action.getCredentials().getAccountType();
         User newUser = new User(username, password, type, country, balance);
         userDatabase.addEntry(newUser);
-
+        site.getExecutedCommandsForCurrentUser().clear();
         site.setCurrentUser(newUser);
         StreamingPlatform.getINSTANCE().setCurrentPage(
                 PageFactory.create(AUTHENTICATED_HOMEPAGE_PAGE));

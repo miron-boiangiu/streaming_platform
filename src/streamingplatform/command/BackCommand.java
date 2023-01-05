@@ -17,11 +17,15 @@ public class BackCommand extends Command{
             return;
         }
 
-        for(Command command: new ArrayList<>(platform.getExecutedCommandsForCurrentUser())){
+        ArrayList<Command> untouchedCommands = new ArrayList<>(platform.getExecutedCommandsForCurrentUser());
+        for (int i = untouchedCommands.size()-1; i>=0; i--) {
+            Command command = untouchedCommands.get(i);
             if(command.hasSucceeded && command.getAction().getType().equals("change page")){
                 hasGoneBack = true;
+                hasSucceeded = true;
                 command.undo();
                 platform.getExecutedCommandsForCurrentUser().remove(command);
+                break;
             }
         }
 
