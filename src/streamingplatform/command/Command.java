@@ -15,6 +15,8 @@ public abstract class Command {
     protected ArrayNode output = StreamingPlatform.getINSTANCE().getOutput();
     @Getter
     protected boolean hasSucceeded = false;
+    @Getter
+    protected boolean wasUndone = false;
     public Command(final ActionInput action) {
         this.action = action;
     }

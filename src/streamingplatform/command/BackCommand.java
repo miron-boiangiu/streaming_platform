@@ -18,14 +18,12 @@ public class BackCommand extends Command{
             return;
         }
 
-        ArrayList<Command> untouchedCommands = new ArrayList<>(platform.getExecutedCommandsForCurrentUser());
-        for (int i = untouchedCommands.size()-1; i>=0; i--) {
-            Command command = untouchedCommands.get(i);
-            if(command.hasSucceeded && command.getAction().getType().equals(CHANGE_PAGE_ACTION_TYPE)){
+        for (int i = platform.getExecutedCommandsForCurrentUser().size()-1; i>=0; i--) {
+            Command command = platform.getExecutedCommandsForCurrentUser().get(i);
+            if(command.hasSucceeded && command.getAction().getType().equals(CHANGE_PAGE_ACTION_TYPE) && !command.isWasUndone()){
                 hasGoneBack = true;
                 hasSucceeded = true;
                 command.undo();
-                platform.getExecutedCommandsForCurrentUser().remove(command);
                 break;
             }
         }

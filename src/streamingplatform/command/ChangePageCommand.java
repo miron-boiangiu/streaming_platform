@@ -74,7 +74,9 @@ public final class ChangePageCommand extends Command {
 
     @Override
     public void undo() {
-        if(hasSucceeded)
+        if (hasSucceeded) {
             platform.setCurrentPage(previousPage);
+            wasUndone = true;
+        }
     }
 }
