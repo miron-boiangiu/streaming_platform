@@ -21,6 +21,9 @@ import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.INCREASING_FILTER_OPTION;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_DEFAULT_RECOMMENDATION;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_RECOMMENDATION_MESSAGE;
+import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUTE;
 
 import streamingplatform.user.Notification;
 import streamingplatform.user.User;
@@ -87,7 +90,7 @@ public final class StreamingPlatform {
 
         commandParser.executeAll();
 
-        if(currentUser != null && currentUser.getAccountType().equals("premium")){
+        if(currentUser != null && currentUser.getAccountType().equals(PREMIUM_USER_ATTRIBUTE)){
             recommendNewMovie();
         }
     }
@@ -109,7 +112,7 @@ public final class StreamingPlatform {
     public void addOutputNode() {
         ObjectNode newNode = output.addObject();
         newNode.putNull(ERROR_PROPERTY_NAME);
-        newNode.putNull("currentMoviesList");
+        newNode.putNull(CURRENT_MOVIES_LIST_PROPERTY_NAME);
         if (currentUser != null) {
             ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
             currentUser.addOutput(userNode);
@@ -121,7 +124,7 @@ public final class StreamingPlatform {
 
     public void recommendNewMovie(){
         ObjectNode newNode = output.addObject();
-        String recommendation = "No recommendation";
+        String recommendation = NOTIFICATION_DEFAULT_RECOMMENDATION;
         @Getter
         @Setter
         class GenreRecommendation{
@@ -183,9 +186,9 @@ public final class StreamingPlatform {
             break;
         }
 
-        currentUser.getNotifications().add(new Notification(recommendation, "Recommendation"));
+        currentUser.getNotifications().add(new Notification(recommendation, NOTIFICATION_RECOMMENDATION_MESSAGE));
         newNode.putNull(ERROR_PROPERTY_NAME);
-        newNode.putNull("currentMoviesList");
+        newNode.putNull(CURRENT_MOVIES_LIST_PROPERTY_NAME);
         ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);
         currentUser.addOutput(userNode);
     }

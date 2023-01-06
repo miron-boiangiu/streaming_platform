@@ -3,7 +3,12 @@ package streamingplatform.command;
 import input.ActionInput;
 
 import java.util.Objects;
+
+import static streamingplatform.StreamingPlatformConstants.BACK_ACTION_TYPE;
 import static streamingplatform.StreamingPlatformConstants.CHANGE_PAGE_ACTION_TYPE;
+import static streamingplatform.StreamingPlatformConstants.DATABASE_ACTION_TYPE;
+import static streamingplatform.StreamingPlatformConstants.DATABASE_ADD_ACTION;
+import static streamingplatform.StreamingPlatformConstants.DATABASE_DELETE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.LOGIN_ACTION;
 import static streamingplatform.StreamingPlatformConstants.ON_PAGE_ACTION_TYPE;
 import static streamingplatform.StreamingPlatformConstants.REGISTER_ACTION;
@@ -13,6 +18,7 @@ import static streamingplatform.StreamingPlatformConstants.LIKE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.RATE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.BUY_PREMIUM_ACTION;
 import static streamingplatform.StreamingPlatformConstants.PURCHASE_ACTION;
+import static streamingplatform.StreamingPlatformConstants.SUBSCRIBE_ACTION;
 import static streamingplatform.StreamingPlatformConstants.WATCH_ACTION;
 import static streamingplatform.StreamingPlatformConstants.BUY_TOKENS_ACTION;
 
@@ -32,12 +38,12 @@ public final class CommandFactory {
     public static Command create(final ActionInput input) {
         if (Objects.equals(input.getType(), CHANGE_PAGE_ACTION_TYPE)) {
             return new ChangePageCommand(input);
-        } else if (Objects.equals(input.getType(), "back")) {
+        } else if (Objects.equals(input.getType(), BACK_ACTION_TYPE)) {
             return new BackCommand(input);
-        } else if (Objects.equals(input.getType(), "database")){
+        } else if (Objects.equals(input.getType(), DATABASE_ACTION_TYPE)){
             switch (input.getFeature()) {
-                case "add": return new DatabaseAddCommand(input);
-                case "delete": return new DatabaseDeleteCommand(input);
+                case DATABASE_ADD_ACTION: return new DatabaseAddCommand(input);
+                case DATABASE_DELETE_ACTION: return new DatabaseDeleteCommand(input);
                 default: throw new IllegalArgumentException();
             }
         } else if (Objects.equals(input.getType(), ON_PAGE_ACTION_TYPE)) {
@@ -52,7 +58,7 @@ public final class CommandFactory {
                 case PURCHASE_ACTION: return new PurchaseCommand(input);
                 case WATCH_ACTION: return new WatchCommand(input);
                 case BUY_TOKENS_ACTION: return new BuyTokensCommand(input);
-                case "subscribe": return new SubscribeCommand(input);
+                case SUBSCRIBE_ACTION: return new SubscribeCommand(input);
                 default: throw new IllegalArgumentException();
             }
         }

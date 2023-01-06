@@ -17,8 +17,14 @@ import static streamingplatform.StreamingPlatformConstants.CREDENTIALS_PROPERTY_
 import static streamingplatform.StreamingPlatformConstants.FREE_PREMIUM_MOVIES_COUNT_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.INITIAL_FREE_MOVIES_COUNT;
 import static streamingplatform.StreamingPlatformConstants.LIKED_MOVIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATIONS_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_ADDED_MOVIE_MESSAGE;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_DELETED_MOVIE_MESSAGE;
 import static streamingplatform.StreamingPlatformConstants.PASSWORD_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUTE;
 import static streamingplatform.StreamingPlatformConstants.PURCHASED_MOVIES_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_FREE_TOKEN_PRICE;
+import static streamingplatform.StreamingPlatformConstants.PURCHASE_MOVIE_PRICE;
 import static streamingplatform.StreamingPlatformConstants.RATED_MOVIES_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.TOKENS_COUNT_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.USERNAME_PROPERTY_NAME;
@@ -65,16 +71,16 @@ public final class User {
     public void updateAboutNewMovie(Movie newMovie){
         String movieName = newMovie.getName();
         if(!newMovie.getCountriesBanned().contains(country))
-            notifications.add(new Notification(movieName, "ADD"));
+            notifications.add(new Notification(movieName, NOTIFICATION_ADDED_MOVIE_MESSAGE));
     }
 
     public void updateAboutDeletedMovie(Movie deletedMovie){
         String movieName = deletedMovie.getName();
-        notifications.add(new Notification(movieName, "DELETE"));
-        if(accountType.equals("premium")){
-            numFreePremiumMovies++;
+        notifications.add(new Notification(movieName, NOTIFICATION_DELETED_MOVIE_MESSAGE));
+        if(accountType.equals(PREMIUM_USER_ATTRIBUTE)){
+            numFreePremiumMovies += PURCHASE_MOVIE_FREE_TOKEN_PRICE;
         } else {
-            this.tokensCount += 2;
+            this.tokensCount += PURCHASE_MOVIE_PRICE;
         }
         purchasedMovies.remove(deletedMovie);
         ratedMovies.remove(deletedMovie);
@@ -99,7 +105,7 @@ public final class User {
         ArrayNode watchedMoviesNode = outputNode.putArray(WATCHED_MOVIES_PROPERTY_NAME);
         ArrayNode likedMoviesNode = outputNode.putArray(LIKED_MOVIES_PROPERTY_NAME);
         ArrayNode ratedMoviesNode = outputNode.putArray(RATED_MOVIES_PROPERTY_NAME);
-        ArrayNode notificationsNode = outputNode.putArray("notifications");
+        ArrayNode notificationsNode = outputNode.putArray(NOTIFICATIONS_PROPERTY_NAME);
 
         for (Movie movie: purchasedMovies) {
             movie.addOutput(purchasedMoviesNode);

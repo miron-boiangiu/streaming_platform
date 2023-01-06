@@ -2,6 +2,9 @@ package streamingplatform.user;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_MESSAGE_PROPERTY_NAME;
+import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_MOVIE_PROPERTY_NAME;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +21,7 @@ public class Notification {
 
     public void addOutput(final ArrayNode arrayNode) {
         ObjectNode newNotificationNode = arrayNode.addObject();
-        newNotificationNode.put("movieName", movieName);
-        newNotificationNode.put("message", message);
+        newNotificationNode.put(NOTIFICATION_MOVIE_PROPERTY_NAME, movieName);
+        newNotificationNode.put(NOTIFICATION_MESSAGE_PROPERTY_NAME, message);
     }
 }

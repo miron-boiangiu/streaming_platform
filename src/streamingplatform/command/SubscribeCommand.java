@@ -5,6 +5,7 @@ import streamingplatform.movie.Movie;
 import streamingplatform.user.User;
 
 import static streamingplatform.StreamingPlatformConstants.FILTER_ACTION;
+import static streamingplatform.StreamingPlatformConstants.SUBSCRIBE_ACTION;
 
 public class SubscribeCommand extends Command{
     public SubscribeCommand(final ActionInput action) {
@@ -13,7 +14,7 @@ public class SubscribeCommand extends Command{
 
     @Override
     public void execute() {
-        if (!platform.getCurrentPage().getPossibleActions().contains("subscribe")) {
+        if (!platform.getCurrentPage().getPossibleActions().contains(SUBSCRIBE_ACTION)) {
             platform.addErrorOutputNode();
             return;
         }

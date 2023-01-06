@@ -16,8 +16,13 @@ public final class StreamingPlatformConstants {
     public static final String PURCHASE_ACTION = "purchase";
     public static final String WATCH_ACTION = "watch";
     public static final String LOGIN_ACTION = "login";
+    public static final String SUBSCRIBE_ACTION = "subscribe";
+    public static final String DATABASE_ADD_ACTION = "add";
+    public static final String DATABASE_DELETE_ACTION = "delete";
     public static final String CHANGE_PAGE_ACTION_TYPE = "change page";
     public static final String ON_PAGE_ACTION_TYPE = "on page";
+    public static final String DATABASE_ACTION_TYPE = "database";
+    public static final String BACK_ACTION_TYPE = "back";
 
     // Pages
     public static final String SEE_DETAILS_PAGE = "see details";
@@ -73,6 +78,15 @@ public final class StreamingPlatformConstants {
     public static final String WATCHED_MOVIES_PROPERTY_NAME = "watchedMovies";
     public static final String LIKED_MOVIES_PROPERTY_NAME = "likedMovies";
     public static final String RATED_MOVIES_PROPERTY_NAME = "ratedMovies";
+    public static final String NOTIFICATION_MOVIE_PROPERTY_NAME = "movieName";
+    public static final String NOTIFICATION_MESSAGE_PROPERTY_NAME = "message";
+    public static final String NOTIFICATIONS_PROPERTY_NAME = "notifications";
+
+    // Notifications constants
+    public static final String NOTIFICATION_ADDED_MOVIE_MESSAGE = "ADD";
+    public static final String NOTIFICATION_DELETED_MOVIE_MESSAGE = "DELETE";
+    public static final String NOTIFICATION_RECOMMENDATION_MESSAGE = "Recommendation";
+    public static final String NOTIFICATION_DEFAULT_RECOMMENDATION = "No recommendation";
 
     private StreamingPlatformConstants() {
 

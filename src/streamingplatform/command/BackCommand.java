@@ -3,6 +3,7 @@ package streamingplatform.command;
 import input.ActionInput;
 
 import java.util.ArrayList;
+import static streamingplatform.StreamingPlatformConstants.CHANGE_PAGE_ACTION_TYPE;
 
 public class BackCommand extends Command{
     public BackCommand(final ActionInput action) {
@@ -20,7 +21,7 @@ public class BackCommand extends Command{
         ArrayList<Command> untouchedCommands = new ArrayList<>(platform.getExecutedCommandsForCurrentUser());
         for (int i = untouchedCommands.size()-1; i>=0; i--) {
             Command command = untouchedCommands.get(i);
-            if(command.hasSucceeded && command.getAction().getType().equals("change page")){
+            if(command.hasSucceeded && command.getAction().getType().equals(CHANGE_PAGE_ACTION_TYPE)){
                 hasGoneBack = true;
                 hasSucceeded = true;
                 command.undo();
