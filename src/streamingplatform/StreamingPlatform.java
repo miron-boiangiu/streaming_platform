@@ -20,7 +20,6 @@ import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_VALUE;
 import static streamingplatform.StreamingPlatformConstants.ERROR_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_MOVIES_LIST_PROPERTY_NAME;
 import static streamingplatform.StreamingPlatformConstants.CURRENT_USER_PROPERTY_NAME;
-import static streamingplatform.StreamingPlatformConstants.INCREASING_FILTER_OPTION;
 import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_DEFAULT_RECOMMENDATION;
 import static streamingplatform.StreamingPlatformConstants.NOTIFICATION_RECOMMENDATION_MESSAGE;
 import static streamingplatform.StreamingPlatformConstants.PREMIUM_USER_ATTRIBUTE;
@@ -31,7 +30,6 @@ import streamingplatform.user.User;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public final class StreamingPlatform {
@@ -90,7 +88,7 @@ public final class StreamingPlatform {
 
         commandParser.executeAll();
 
-        if(currentUser != null && currentUser.getAccountType().equals(PREMIUM_USER_ATTRIBUTE)){
+        if (currentUser != null && currentUser.getAccountType().equals(PREMIUM_USER_ATTRIBUTE)) {
             recommendNewMovie();
         }
     }
@@ -122,25 +120,35 @@ public final class StreamingPlatform {
         currentPage.addOutput(newNode);
     }
 
-    public void recommendNewMovie(){
+    /**
+     * Recommends a new movie to the connected premium user, based on his preferences.
+     */
+    public void recommendNewMovie() {
         ObjectNode newNode = output.addObject();
+        // This default recommendation will only get overwritten if a movie is found.
         String recommendation = NOTIFICATION_DEFAULT_RECOMMENDATION;
+        // Firstly, all genres are ordered by their number of likes.
+
+        /**
+         * This class is a wrapper for the genres, so they can be ordered by their likes.
+         */
         @Getter
         @Setter
-        class GenreRecommendation{
+        class GenreRecommendation {
                 private String genre;
                 private Integer numberOfLikes = 0;
 
 
-            public GenreRecommendation(String genre, Integer numberOfLikes) {
+            GenreRecommendation(final String genre, final Integer numberOfLikes) {
                 this.genre = genre;
                 this.numberOfLikes = numberOfLikes;
             }
         }
         class GenreRecommendationComparator implements Comparator<GenreRecommendation> {
             public int compare(final GenreRecommendation a, final GenreRecommendation b) {
-                if (!a.getNumberOfLikes().equals(b.getNumberOfLikes()))
+                if (!a.getNumberOfLikes().equals(b.getNumberOfLikes())) {
                     return b.getNumberOfLikes() - a.getNumberOfLikes();
+                }
                 return a.getGenre().compareTo(b.getGenre());
             }
         }
@@ -148,9 +156,9 @@ public final class StreamingPlatform {
         ArrayList<GenreRecommendation> genres = new ArrayList<>();
         HashMap<String, Integer> genresAndLikes = new HashMap<>();
 
-        for(Movie likedMovie: currentUser.getLikedMovies()){
-            for(String genre: likedMovie.getGenres()){
-                if(genresAndLikes.containsKey(genre)){
+        for (Movie likedMovie: currentUser.getLikedMovies()) {
+            for (String genre: likedMovie.getGenres()) {
+                if (genresAndLikes.containsKey(genre)) {
                     genresAndLikes.put(genre, genresAndLikes.get(genre) + 1);
                 } else {
                     genresAndLikes.put(genre, 1);
@@ -158,35 +166,49 @@ public final class StreamingPlatform {
             }
         }
 
-        for(Map.Entry<String, Integer> entry: genresAndLikes.entrySet()){
+        for (Map.Entry<String, Integer> entry: genresAndLikes.entrySet()) {
             genres.add(new GenreRecommendation(entry.getKey(), entry.getValue()));
         }
 
         genres.sort(new GenreRecommendationComparator());
 
-        for(GenreRecommendation genreRecommendation: genres){
+        // Next, all genres get their movies sorted by their number of likes.
+        for (GenreRecommendation genreRecommendation: genres) {
             ArrayList<Movie> moviesOfCurrentGenre = new ArrayList<>();
-            for(Movie movie: StreamingPlatform.getINSTANCE().getMovieDatabase().getEntries()){
-                if(movie.getCountriesBanned().contains(currentUser.getCountry())){
+            for (Movie movie: StreamingPlatform.getINSTANCE().getMovieDatabase().getEntries()) {
+                // Only unbanned, unwatched movies of the specified genre are picked.
+                if (movie.getCountriesBanned().contains(currentUser.getCountry())) {
                     continue;
                 }
-                if(!movie.getGenres().contains(genreRecommendation.getGenre())){
+                if (!movie.getGenres().contains(genreRecommendation.getGenre())) {
                     continue;
                 }
-                if(currentUser.getWatchedMovies().contains(movie)){
+                if (currentUser.getWatchedMovies().contains(movie)) {
                     continue;
                 }
                 moviesOfCurrentGenre.add(movie);
             }
-            if(moviesOfCurrentGenre.size() == 0){
+
+            if (moviesOfCurrentGenre.size() == 0) {
                 continue;
             }
+
+            // Order the movies and pick the first one to recommend.
             moviesOfCurrentGenre.sort((m1, m2) -> m2.getNumLikes() - m1.getNumLikes());
             recommendation = moviesOfCurrentGenre.get(0).getName();
+            /* Since the genres are ordered by their number of likes and only
+             * unwatched movies are picked, if at least a movie was found, then
+             * surely a movie of that genre will be recommended, so we break if
+             * we reach this point.
+             */
             break;
         }
 
-        currentUser.getNotifications().add(new Notification(recommendation, NOTIFICATION_RECOMMENDATION_MESSAGE));
+        /* Here, the ObjectNode gets added for the JSON output, with either the
+         * default notification or a movie's name.
+         */
+        currentUser.getNotifications().add(new Notification(recommendation,
+                NOTIFICATION_RECOMMENDATION_MESSAGE));
         newNode.putNull(ERROR_PROPERTY_NAME);
         newNode.putNull(CURRENT_MOVIES_LIST_PROPERTY_NAME);
         ObjectNode userNode = newNode.putObject(CURRENT_USER_PROPERTY_NAME);

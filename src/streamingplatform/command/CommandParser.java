@@ -1,6 +1,5 @@
 package streamingplatform.command;
 
-import lombok.Getter;
 import streamingplatform.StreamingPlatform;
 
 import java.util.ArrayList;

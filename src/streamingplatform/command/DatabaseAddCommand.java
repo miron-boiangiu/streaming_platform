@@ -3,7 +3,7 @@ package streamingplatform.command;
 import input.ActionInput;
 import streamingplatform.movie.Movie;
 
-public class DatabaseAddCommand extends Command{
+public final class DatabaseAddCommand extends Command {
 
     public DatabaseAddCommand(final ActionInput action) {
         super(action);

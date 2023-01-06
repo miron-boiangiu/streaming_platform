@@ -23,8 +23,15 @@ public abstract class Command {
 
     /**
      * The logic for each command has to overwrite this method.
+     * Accomplishes a specific action, depending on the command.
      */
     public abstract void execute();
 
-    public void undo(){}
+    /**
+     * The logic for each command has to overwrite this method.
+     * Undoes a specific action, depending on the command.
+     */
+    public void undo() {
+
+    }
 }

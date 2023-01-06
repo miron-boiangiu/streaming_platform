@@ -2,7 +2,6 @@ package streamingplatform.command;
 
 import input.ActionInput;
 import streamingplatform.movie.Movie;
-import streamingplatform.page.Page;
 
 import java.util.ArrayList;
 import java.util.Comparator;

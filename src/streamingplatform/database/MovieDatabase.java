@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class MovieDatabase extends Database<Movie>{
+public final class MovieDatabase extends Database<Movie> {
     @Getter
     private final HashMap<String, HashSet<User>> userSubscriptions = new HashMap<>();
 
     @Override
-    public void addEntry(Movie newEntry) {
-        for(Movie movie: entries){
-            if(movie.getName().equals(newEntry.getName())){
+    public void addEntry(final Movie newEntry) {
+        for (Movie movie: entries) {
+            if (movie.getName().equals(newEntry.getName())) {
                 StreamingPlatform.getINSTANCE().addErrorOutputNode();
                 return;
             }
@@ -25,12 +25,12 @@ public class MovieDatabase extends Database<Movie>{
         super.addEntry(newEntry);
         ArrayList<User> notifiedUsers = new ArrayList<>();
 
-        for(String genre: newEntry.getGenres()){
-            if(!userSubscriptions.containsKey(genre)){
+        for (String genre: newEntry.getGenres()) {
+            if (!userSubscriptions.containsKey(genre)) {
                 continue;
             }
-            for(User subscribedUser: userSubscriptions.get(genre)){
-                if(!notifiedUsers.contains(subscribedUser)){
+            for (User subscribedUser: userSubscriptions.get(genre)) {
+                if (!notifiedUsers.contains(subscribedUser)) {
                     notifiedUsers.add(subscribedUser);
                     subscribedUser.updateAboutNewMovie(newEntry);
                 }
@@ -39,27 +39,38 @@ public class MovieDatabase extends Database<Movie>{
 
     }
 
-    public void removeEntry(String removedEntryName){
+    /**
+     * Removes a movie from the database and informs all owners of that movie of its removal.
+     * @param removedEntryName The name of the movie to be removed.
+     */
+    public void removeEntry(final String removedEntryName) {
         Movie movieToRemove = null;
-        for(Movie entry: entries){
-            if(entry.getName().equals(removedEntryName)){
+        for (Movie entry: entries) {
+            if (entry.getName().equals(removedEntryName)) {
                 movieToRemove = entry;
                 break;
             }
         }
 
-        if(movieToRemove == null){
+        if (movieToRemove == null) {
             StreamingPlatform.getINSTANCE().addErrorOutputNode();
             return;
         }
 
-        for(User user: movieToRemove.getMovieOwners()){
+        for (User user: movieToRemove.getMovieOwners()) {
             user.updateAboutDeletedMovie(movieToRemove);
         }
 
         entries.remove(movieToRemove);
     }
 
+    /**
+     * Subscribes a user to a genre, so they get notified when a
+     * movie of that genre is added to the database.
+     * @param user The user to subscribe to the genre
+     * @param genre The genre to be subscribed to
+     * @return
+     */
     public boolean addSubscriber(final User user, final String genre) {
         if (!userSubscriptions.containsKey(genre)) {
             userSubscriptions.put(genre, new HashSet<>());

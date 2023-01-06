@@ -52,7 +52,11 @@ public final class Movie {
         countriesBanned = movieInput.getCountriesBanned();
     }
 
-    public void addOwner(final User user){
+    /**
+     * Adds a User to the list of known owners of this movie.
+     * @param user The User to add to the movie's list of owners.
+     */
+    public void addOwner(final User user) {
         movieOwners.add(user);
     }
 
@@ -92,10 +96,19 @@ public final class Movie {
         this.rating = (double) allRatingStars / (double) numRatings;
     }
 
-    public void removeRating(final int oldRating){
+    /**
+     * Removes one of this movie's ratings.
+     * @param oldRating The rating to be removed.
+     */
+    public void removeRating(final int oldRating) {
+        if (numRatings == 0) {
+            return;
+        }
         numRatings--;
         allRatingStars -= oldRating;
-        this.rating = (double) allRatingStars / (double) numRatings;
+        if (numRatings != 0) {
+            this.rating = (double) allRatingStars / (double) numRatings;
+        }
     }
 
     /**
@@ -106,11 +119,20 @@ public final class Movie {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Movie movie = (Movie) o;
-        return year == movie.year && duration == movie.duration && name.equals(movie.name) && Objects.equals(genres, movie.genres) && Objects.equals(actors, movie.actors) && Objects.equals(countriesBanned, movie.countriesBanned);
+        return year == movie.year
+                && duration == movie.duration
+                && name.equals(movie.name)
+                && Objects.equals(genres, movie.genres)
+                && Objects.equals(actors, movie.actors)
+                && Objects.equals(countriesBanned, movie.countriesBanned);
     }
 
     @Override

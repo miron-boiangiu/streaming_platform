@@ -11,6 +11,7 @@ public class SeeDetailsPage extends AuthenticatedPage {
     public SeeDetailsPage() {
         super();
         this.hasBackOutput = true;
-        possibleActions.addAll(List.of(PURCHASE_ACTION, WATCH_ACTION, LIKE_ACTION, RATE_ACTION, SUBSCRIBE_ACTION));
+        possibleActions.addAll(List.of(PURCHASE_ACTION, WATCH_ACTION,
+                LIKE_ACTION, RATE_ACTION, SUBSCRIBE_ACTION));
     }
 }

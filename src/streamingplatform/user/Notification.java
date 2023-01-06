@@ -10,15 +10,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Notification {
+public final class Notification {
     private String movieName;
     private String message;
 
-    public Notification(String movieName, String message){
+    public Notification(final String movieName, final String message) {
         this.movieName = movieName;
         this.message = message;
     }
 
+    /**
+     * Adds an object node representing the notification, for the final JSON output.
+     * @param arrayNode The ArrayNode to add the ObjectNode to.
+     */
     public void addOutput(final ArrayNode arrayNode) {
         ObjectNode newNotificationNode = arrayNode.addObject();
         newNotificationNode.put(NOTIFICATION_MOVIE_PROPERTY_NAME, movieName);

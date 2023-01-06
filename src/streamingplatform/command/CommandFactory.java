@@ -40,7 +40,7 @@ public final class CommandFactory {
             return new ChangePageCommand(input);
         } else if (Objects.equals(input.getType(), BACK_ACTION_TYPE)) {
             return new BackCommand(input);
-        } else if (Objects.equals(input.getType(), DATABASE_ACTION_TYPE)){
+        } else if (Objects.equals(input.getType(), DATABASE_ACTION_TYPE)) {
             switch (input.getFeature()) {
                 case DATABASE_ADD_ACTION: return new DatabaseAddCommand(input);
                 case DATABASE_DELETE_ACTION: return new DatabaseDeleteCommand(input);

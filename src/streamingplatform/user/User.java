@@ -68,16 +68,26 @@ public final class User {
         this.balance = input.getCredentials().getBalance();
     }
 
-    public void updateAboutNewMovie(Movie newMovie){
+    /**
+     * Adds a notification to this user about a new movie that's relevant to him.
+     * @param newMovie The new movie added to the database.
+     */
+    public void updateAboutNewMovie(final Movie newMovie) {
         String movieName = newMovie.getName();
-        if(!newMovie.getCountriesBanned().contains(country))
+        if (!newMovie.getCountriesBanned().contains(country)) {
             notifications.add(new Notification(movieName, NOTIFICATION_ADDED_MOVIE_MESSAGE));
+        }
     }
 
-    public void updateAboutDeletedMovie(Movie deletedMovie){
+    /**
+     * Adds a notification to this user about a movie he owned that's now deleted.
+     * Also gives the user tokens to buy a new movie in its place.
+     * @param deletedMovie The movie that was deleted from the database.
+     */
+    public void updateAboutDeletedMovie(final Movie deletedMovie) {
         String movieName = deletedMovie.getName();
         notifications.add(new Notification(movieName, NOTIFICATION_DELETED_MOVIE_MESSAGE));
-        if(accountType.equals(PREMIUM_USER_ATTRIBUTE)){
+        if (accountType.equals(PREMIUM_USER_ATTRIBUTE)) {
             numFreePremiumMovies += PURCHASE_MOVIE_FREE_TOKEN_PRICE;
         } else {
             this.tokensCount += PURCHASE_MOVIE_PRICE;
@@ -119,7 +129,7 @@ public final class User {
         for (Movie movie: ratedMovies) {
             movie.addOutput(ratedMoviesNode);
         }
-        for(Notification notification: notifications){
+        for (Notification notification: notifications) {
             notification.addOutput(notificationsNode);
         }
     }
