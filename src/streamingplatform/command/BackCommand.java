@@ -20,7 +20,7 @@ public class BackCommand extends Command{
 
         for (int i = platform.getExecutedCommandsForCurrentUser().size()-1; i>=0; i--) {
             Command command = platform.getExecutedCommandsForCurrentUser().get(i);
-            if(command.hasSucceeded && command.getAction().getType().equals(CHANGE_PAGE_ACTION_TYPE) && !command.isWasUndone()){
+            if(command.hasSucceeded && command.getAction().getType().equals(CHANGE_PAGE_ACTION_TYPE) && !command.getWasUndone()){
                 hasGoneBack = true;
                 hasSucceeded = true;
                 command.undo();
@@ -29,7 +29,7 @@ public class BackCommand extends Command{
         }
 
         if(hasGoneBack) {
-            if(platform.getCurrentPage().isHasBackOutput()){ // TODO: Can you change Lombok getter prefix?
+            if(platform.getCurrentPage().getHasBackOutput()){
                 platform.addOutputNode();
             }
         } else {
