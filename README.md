@@ -1,62 +1,159 @@
-# POO TV
-> Boiangiu Victor-Miron, 325 CD
-## How the code is organized
+<div id="top"></div>
 
-The code is organized in the following main classes:
-- StreamingPlatform: contains the Users and Movies database, runs the actions given in the input and handles output;
-- Database: pretty much just a wrapper for an ArrayList, containing objects of a given class;
-- DatabaseMovie: an extension of Database, to be used only with movies.
-- User: contains all information about a specific user: his name, password, tokens, etc.
-- Page: the template for all pages, contains the names of pages that can be accessed from it and actions that can be
-run in it.
-- Command: the template for other commands that contain the logic for a specific action: filter, watch, etc.
-- Movie: contains details of a specific movie: its title, its filming year, etc.
+[![MIT License][license-shield]][license-url]
+![Homework][homework-shield]
 
-## The workflow
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/miron-boiangiu/streaming_platform">
+    <img src="images/logo.png" alt="Logo" width="120" height="120">
+  </a>
 
-The input JSON file is read by the Main method using Jackson (props to the first homework for this!) and turned into
-Input objects, that are then passed to the StreamingPlatform instance.
+<h3 align="center">Streaming Platform / POO TV</h3>
 
-The StreamingPlatform instance then resets all of its data (since Singleton breaks tests that are run one after the
-other), then initializes its Users and Movies databases from the input it received and turns all actions into Commands
-using the Factory design pattern, inserting them into the CommandParser to be ready for execution.
+  <p align="center">
+    Second Object Oriented Programming homework, a Java simulation of a streaming platform.
+    <br />
+    <br />
+    <a href="https://github.com/miron-boiangiu/streaming_platform/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/miron-boiangiu/streaming_platform/issues">Request Feature</a>
+  </p>
+</div>
 
-Once everything is set, CommandParser is told to execute all Commands, going through them one by one and executing them.
 
-After all commands are run, if the connected user is a premium one, then the platform attempts to recommend him an
-unwatched movie based on his preferences in order to keep him locked in for as long as possible.
 
-## Design patterns used
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
-The following design patterns were used:
-- Singleton: for the StreamingPlatform class, since only one object's existence made sense, and it also meant easy
-access to everything in it from all other classes;
-- Factory: used for pages and commands, most useful for pages, since it's used everytime a new page is required;
-- Command: used for the logic for each action and for going back to previous pages.
-- Observer: used to inform users that have subscribed to a specific genre of a new movie of that genre being added to
-the database. Also used to inform users about one of their owned movies getting deleted.
 
-## The ideas behind some implementation decisions
 
-The StreamingPlatform class uses Singleton because it is the "brain" of the app, it contains all data, and it made sense
-that only one instance exists, also making access to said data quick and easy for all classes (especially useful in
-Commands).
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-All pages are their own class because, once the initial project structure was made, expanding the platform to have
-multiple pages was very easy: all you have to do is say which pages are accessible from the new one, what actions can be
-done on it, and add it to the Page factory.
+Coded in Java, this project simulates the back-end of a streaming platform, allowing users to create new accounts, buy and watch movies, rate them and get recommendations based on their preferences.
 
-Going back to previous pages was done by adding the undo() method to commands because it seemed cleaner and simpler than
-adding a stack of pages the user has visited. There also already was a stack of previously run commands, making this
-implementation the obvious choice.
+<a href="https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1">Assignment link 1.</a>
 
-## Final thoughts
+<a href="https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2">Assignment link 2.</a>
 
-Implementing the new functionalities was pretty straight-forward, having a good implementation of the first phase proved
-itself to be very important.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
----
-### Patrick Bateman says:
-> Nice homework. But it can always be cleaner. Run faster.
 
-<img src="nice_homework.jpg" height="200">
+
+### Built With
+
+* [Java](https://www.java.com/en/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+
+
+### Prerequisites
+
+* A JDK version ([OpenJDK](https://openjdk.org/)/[Oracle JDK](https://www.oracle.com))
+* [Lombok](https://projectlombok.org/)
+* [Jackson](https://github.com/FasterXML/jackson)
+
+Note: both Lombok and Jackson have a version included in the repository.
+
+### Compilation
+
+I recommend using a build system to compile the source to bytecode and run it:
+* [Maven](https://maven.apache.org/)
+* [Gradle](https://gradle.org/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+As of right now, the project supports simulating the inputs of one user at a time, whose interactions with the "server" are being read from a JSON file. The user can browse the platform, there being several accessible pages, and buy movies, watch movies, subscribe to a genre, etc. Below is a diagram showing the pages of the platform:
+
+<div align="center">
+<img src="images/structure.png" width=100%>
+</div>
+
+The following functionalities have been implemented:
+
+* New users start with a number of tokens by default, which they can spend on buying new movies. If the user is a premium one, then the first couple of movies they buy are free of charge.
+
+* The platform supports showing certain movies only in specific countries, where they are licensed.
+
+* Users can rate movies they have watched.
+
+* Users can go back to a previous page they had been on.
+
+* Admins can easily add new movies and users that have subscribed to at least one of that movies' genres will be notified of its addition (if it's available in their country).
+
+Note: In case you find anything unclear or too vague, please consult the assignment link and README_OLD.md .
+
+<br>
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Boiangiu Victor-Miron - miron.boiangiu@gmail.com
+
+Project Link: [https://github.com/miron-boiangiu/streaming_platform](https://github.com/miron-boiangiu/streaming_platform)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/miron-boiangiu/streaming_platform.svg?style=for-the-badge
+[contributors-url]:https://github.com/miron-boiangiu/streaming_platform/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/miron-boiangiu/streaming_platform.svg?style=for-the-badge
+[forks-url]:https://github.com/miron-boiangiu/streaming_platform/network/members
+[stars-shield]: https://img.shields.io/github/stars/miron-boiangiu/streaming_platform.svg?style=for-the-badge
+[stars-url]:https://github.com/miron-boiangiu/streaming_platform/stargazers
+[issues-shield]: https://img.shields.io/github/issues/miron-boiangiu/streaming_platform.svg?style=for-the-badge
+[issues-url]:https://github.com/miron-boiangiu/streaming_platform/issues
+[license-shield]: https://img.shields.io/github/license/miron-boiangiu/streaming_platform.svg?style=for-the-badge
+[license-url]:https://github.com/miron-boiangiu/streaming_platform/blob/main/LICENSE
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/miron-boiangiu
+[product-screenshot]: images/screenshot.png
+[homework-shield]: https://img.shields.io/badge/UPB-Homework-%23deeb34?style=for-the-badge
+
